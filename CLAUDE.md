@@ -59,7 +59,7 @@ src/
 │           └── pedidos/
 ├── components/
 │   ├── home/
-│   │   ├── HeroBanner.tsx       # Hero grid (main + side cards)
+│   │   ├── HeroBanner.tsx       # Hero carrossel (3 slides, auto-advance 5s) + 3 cards abaixo lado a lado
 │   │   └── FlashSaleTimer.tsx   # Countdown timer (client)
 │   ├── layout/
 │   │   ├── Header.tsx    # Promo bar + header azul + nav categorias
