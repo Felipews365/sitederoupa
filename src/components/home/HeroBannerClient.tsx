@@ -124,6 +124,11 @@ export function HeroBannerClient({ slides }: Props) {
                   className="absolute inset-y-0 left-0 w-24 sm:w-20 z-10"
                   style={{ background: `linear-gradient(to right, ${slide.bg_via ?? slide.bg_from}, transparent)` }}
                 />
+                {/* Fade direita */}
+                <div
+                  className="absolute inset-y-0 right-0 w-16 sm:w-24 z-10"
+                  style={{ background: `linear-gradient(to left, ${slide.bg_to}, transparent)` }}
+                />
                 <Image
                   src={slide.image_url}
                   alt={slide.title}
