@@ -39,7 +39,7 @@ export default async function HomePage() {
   const trustItems = [
     { icon: ShieldCheck, label: 'Qualidade Garantida', desc: 'Produtos selecionados com cuidado' },
     { icon: Truck, label: 'Frete Grátis', desc: 'Acima de R$ 79 em todo Brasil' },
-    { icon: RefreshCw, label: 'Troca Grátis', desc: '30 dias para trocar tamanho' },
+    { icon: RefreshCw, label: 'Troca Grátis', desc: '7 dias para trocar tamanho' },
     { icon: CreditCard, label: '10x Sem Juros', desc: 'Nos principais cartões' },
   ]
 

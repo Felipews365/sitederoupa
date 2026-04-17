@@ -64,7 +64,7 @@ export function Header() {
           🚀 Nova coleção chegou! &nbsp;|&nbsp;
           🚚 Frete grátis acima de <span className="text-gold font-bold">R$ 79</span> &nbsp;|&nbsp;
           💳 Até <span className="text-gold font-bold">10x</span> sem juros &nbsp;|&nbsp;
-          🔄 Troca grátis em <span className="text-gold font-bold">30 dias</span>
+          🔄 Troca grátis em <span className="text-gold font-bold">7 dias</span>
         </span>
         <span className="sm:hidden">
           🚚 Frete grátis acima de <span className="text-gold font-bold">R$ 79</span>
@@ -81,7 +81,7 @@ export function Header() {
             </div>
             <div className="hidden sm:block">
               <span className="font-display text-xl font-bold text-white leading-none">
-                Mercado<span style={{ color: '#FFD600' }}>Verde</span>
+                Black<span style={{ color: '#FFD600' }}>Import</span>
               </span>
               <span className="block text-[0.6rem] font-medium text-white/60 uppercase tracking-widest mt-0.5">
                 Moda &amp; Estilo

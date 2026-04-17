@@ -40,7 +40,7 @@ export function Footer() {
                 <Sparkles className="w-4 h-4" style={{ color: '#FFD600' }} />
               </div>
               <span className="font-display text-lg font-bold text-white">
-                Mercado<span style={{ color: '#FFD600' }}>Verde</span>
+                Black<span style={{ color: '#FFD600' }}>Import</span>
               </span>
             </Link>
             <p className="text-sm text-white/60 max-w-[30ch] leading-relaxed">
