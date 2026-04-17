@@ -89,7 +89,7 @@ export function HeroBannerClient({ slides }: Props) {
     <section className="flex flex-col gap-4 mb-6" aria-label="Destaques da loja">
       {/* Carousel */}
       <div
-        style={{ height: containerHeight }}
+        style={{ height: `clamp(300px, 55vw, ${Math.max(containerHeight, 500)}px)` }}
         className="relative overflow-hidden rounded-2xl cursor-pointer"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
@@ -101,7 +101,7 @@ export function HeroBannerClient({ slides }: Props) {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -40 }}
             transition={{ duration: 0.45, ease: 'easeInOut' }}
-            className="absolute inset-0 flex items-end p-8 sm:p-10"
+            className="absolute inset-0 flex items-center p-6 sm:p-10"
             style={{ background: gradientStyle }}
           >
             {/* Decorações */}
@@ -118,7 +118,7 @@ export function HeroBannerClient({ slides }: Props) {
 
             {/* Imagem do produto (quando existir) */}
             {slide.image_url && (
-              <div className="absolute right-0 top-0 bottom-0 w-[42%] sm:w-[38%] pointer-events-none">
+              <div className="absolute right-0 top-0 bottom-0 w-[38%] pointer-events-none hidden sm:block">
                 {/* Gradiente de fade na esquerda da imagem */}
                 <div
                   className="absolute inset-y-0 left-0 w-20 z-10"
@@ -135,7 +135,7 @@ export function HeroBannerClient({ slides }: Props) {
               </div>
             )}
 
-            <div className="relative z-10 max-w-md">
+            <div className="relative z-10 w-full sm:w-[58%]">
               {/* Badge */}
               {slide.badge_text && (
                 <div className="inline-flex items-center gap-2 bg-accent text-white text-xs font-bold px-3 py-1.5 rounded-full mb-4 uppercase tracking-wider">
@@ -145,7 +145,7 @@ export function HeroBannerClient({ slides }: Props) {
               )}
 
               {/* Título */}
-              <h1 className="font-display text-4xl sm:text-5xl font-bold text-white leading-tight mb-3">
+              <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-3">
                 {slide.title}
                 {slide.title_highlight && (
                   <>
@@ -159,7 +159,7 @@ export function HeroBannerClient({ slides }: Props) {
               </h1>
 
               {slide.subtitle && (
-                <p className="text-white/80 text-sm sm:text-base mb-6 max-w-[38ch]">
+                <p className="text-white/80 text-sm sm:text-base mb-5 sm:mb-6 max-w-[38ch] line-clamp-3 sm:line-clamp-none">
                   {slide.subtitle}
                 </p>
               )}
