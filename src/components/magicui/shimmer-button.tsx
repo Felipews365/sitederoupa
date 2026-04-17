@@ -9,6 +9,7 @@ interface ShimmerButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   borderRadius?: string
   shimmerDuration?: string
   background?: string
+  hoverBackground?: string
   children: React.ReactNode
   className?: string
 }
@@ -19,6 +20,7 @@ export function ShimmerButton({
   shimmerDuration = '3s',
   borderRadius = '100px',
   background = 'radial-gradient(ellipse 80% 50% at 50% 120%, #0064D2, #003F8A)',
+  hoverBackground,
   className,
   children,
   ...props
@@ -33,6 +35,7 @@ export function ShimmerButton({
           '--speed': shimmerDuration,
           '--cut': shimmerSize,
           '--bg': background,
+          '--bg-hover': hoverBackground ?? background,
         } as CSSProperties
       }
       className={cn(
@@ -60,10 +63,12 @@ export function ShimmerButton({
         </div>
       </div>
       {children}
-      {/* backdrop */}
+      {/* backdrop — troca cor no hover com transição suave */}
       <div
         className={cn(
-          'absolute -z-20 [background:var(--bg)] [border-radius:var(--radius)] [inset:var(--cut)]',
+          'absolute -z-20 [border-radius:var(--radius)] [inset:var(--cut)]',
+          'transition-[background] duration-300 ease-in-out',
+          '[background:var(--bg)] group-hover:[background:var(--bg-hover)]',
         )}
       />
     </button>

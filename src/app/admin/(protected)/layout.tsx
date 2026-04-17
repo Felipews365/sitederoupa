@@ -5,8 +5,7 @@ import {
   ShoppingBag,
   Tag,
   Package,
-  Users,
-  ChevronRight,
+  ImagePlay,
   LogOut,
 } from 'lucide-react'
 import { getUser } from '@/actions/auth'
@@ -35,6 +34,7 @@ export default async function AdminLayout({
     { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
     { href: '/admin/produtos', label: 'Produtos', icon: ShoppingBag },
     { href: '/admin/categorias', label: 'Categorias', icon: Tag },
+    { href: '/admin/banners', label: 'Banners Carrossel', icon: ImagePlay },
     { href: '/admin/pedidos', label: 'Pedidos', icon: Package },
   ]
 

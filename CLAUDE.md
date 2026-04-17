@@ -56,10 +56,12 @@ src/
 │           ├── page.tsx      # Dashboard
 │           ├── produtos/
 │           ├── categorias/
+│           ├── banners/          # Gerenciamento do carrossel (hero_banners)
 │           └── pedidos/
 ├── components/
 │   ├── home/
-│   │   ├── HeroBanner.tsx       # Hero carrossel (3 slides, auto-advance 5s) + 3 cards abaixo lado a lado
+│   │   ├── HeroBanner.tsx       # Server component — busca slides do banco (hero_banners), fallback hardcoded
+│   │   ├── HeroBannerClient.tsx # Client component — carrossel animado (Framer Motion), auto-advance 5s, 3 cards abaixo
 │   │   └── FlashSaleTimer.tsx   # Countdown timer (client)
 │   ├── layout/
 │   │   ├── Header.tsx    # Promo bar + header azul + nav categorias
@@ -76,7 +78,13 @@ src/
 │   │   └── marquee.tsx
 │   ├── shared/
 │   └── ui/               # shadcn/ui components
-├── actions/              # Server actions (Supabase queries)
+├── actions/
+│   ├── admin/
+│   │   ├── banners.ts    # CRUD hero_banners (getAllBanners, getActiveBanners, create/update/delete/reorder)
+│   │   ├── products.ts
+│   │   ├── categories.ts
+│   │   └── orders.ts
+│   └── ...               # Outras server actions (Supabase queries)
 ├── store/
 │   └── cartStore.ts      # Zustand — carrinho
 ├── lib/
@@ -97,6 +105,7 @@ Schema em `supabase/schema.sql`. Tabelas principais:
 - `orders` / `order_items` — pedidos
 - `carts` / `cart_items` — carrinho persistido
 - `addresses` — endereços do usuário
+- `hero_banners` — slides do carrossel da homepage (`title`, `title_highlight`, `subtitle`, `badge_text`, `cta_label`, `cta_href`, `cta_bg_color`, `bg_from`, `bg_via`, `bg_to`, `image_url`, `banner_height`, `sort_order`, `active`) — RLS: leitura pública, escrita apenas admin
 
 RLS habilitado em todas as tabelas.
 
@@ -146,6 +155,7 @@ RLS habilitado em todas as tabelas.
 - **Preços**: sempre em centavos no banco → exibir com `PriceDisplay` de `@/components/shared/PriceDisplay`
 - **Rotas de categoria**: `/categorias/[slug]` — slugs: `camisetas`, `calcas`, `vestidos`, `moletons`, `shorts`, `jaquetas`, `acessorios`
 - **Admin route group**: páginas protegidas do admin ficam em `src/app/admin/(protected)/` — o `layout.tsx` desse grupo verifica `role=admin`. A página de login em `src/app/admin/login/` fica fora do grupo para evitar loop de redirect
-- **Magic UI**: componentes ficam em `src/components/magicui/` — são copy-paste, sem instalar pacote `magicui`. Depende de `framer-motion`
+- **Magic UI**: componentes ficam em `src/components/magicui/` — são copy-paste, sem instalar pacote `magicui`. Depende de `framer-motion`. `ShimmerButton` aceita prop `hoverBackground` para cor de hover diferente do estado normal
+- **Carrossel hero**: slides gerenciados via `/admin/banners`. Altura uniforme = max entre todos os slides ativos. Cor do botão por slide via `cta_bg_color` (hover calculado automaticamente: +28% claro)
 - **Fontes**: `font-display` → Lexend, `font-sans` → Inter (carregadas via Google Fonts em `globals.css`)
 - **Border radius**: usar `rounded-xl` (1rem) e `rounded-2xl` (1.5rem) para cards, `rounded-full` para botões CTA e pills
