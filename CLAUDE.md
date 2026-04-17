@@ -102,11 +102,21 @@ RLS habilitado em todas as tabelas.
 
 > **Atenção:** a função `handle_new_user()` (trigger `on_auth_user_created`) deve ter `SET search_path = public` e usar `public.profiles` explicitamente — sem isso o GoTrue não encontra a tabela ao criar usuários (erro `relation "profiles" does not exist`). Já corrigido no banco.
 
+## Deploy
+
+| Serviço | URL |
+|---|---|
+| Produção (Vercel) | `https://sitederoupa.vercel.app` |
+| Repositório (GitHub) | `https://github.com/Felipews365/sitederoupa` |
+
+> Vercel conectado ao branch `main` — push para `main` faz deploy automático.
+
 ## Credenciais de desenvolvimento
 
 | Acesso | Valor |
 |---|---|
-| Admin URL | `http://localhost:3000/admin/login` |
+| Admin URL (dev) | `http://localhost:3000/admin/login` |
+| Admin URL (prod) | `https://sitederoupa.vercel.app/admin/login` |
 | Admin email | `admin@teste.com` |
 | Admin senha | `Admin123!` |
 
@@ -122,6 +132,9 @@ RLS habilitado em todas as tabelas.
    UPDATE profiles SET role = 'admin'
    WHERE id = (SELECT id FROM auth.users WHERE email = 'seu@email.com');
    ```
+5. Supabase Auth → URL Configuration já configurado:
+   - Site URL: `https://sitederoupa.vercel.app`
+   - Redirect URLs: `https://sitederoupa.vercel.app/**` e `http://localhost:3000/**`
 
 > **Nota:** `next/image` aceita hostnames: `*.supabase.co`, `lh3.googleusercontent.com`, `picsum.photos` (configurado em `next.config.ts`)
 
