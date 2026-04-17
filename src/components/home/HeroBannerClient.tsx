@@ -118,10 +118,10 @@ export function HeroBannerClient({ slides }: Props) {
 
             {/* Imagem do produto (quando existir) */}
             {slide.image_url && (
-              <div className="absolute right-0 top-0 bottom-0 w-[38%] pointer-events-none hidden sm:block">
+              <div className="absolute right-0 top-0 bottom-0 w-[42%] sm:w-[38%] pointer-events-none">
                 {/* Gradiente de fade na esquerda da imagem */}
                 <div
-                  className="absolute inset-y-0 left-0 w-20 z-10"
+                  className="absolute inset-y-0 left-0 w-24 sm:w-20 z-10"
                   style={{ background: `linear-gradient(to right, ${slide.bg_via ?? slide.bg_from}, transparent)` }}
                 />
                 <Image
@@ -135,7 +135,7 @@ export function HeroBannerClient({ slides }: Props) {
               </div>
             )}
 
-            <div className="relative z-10 w-full sm:w-[58%]">
+            <div className={`relative z-10 sm:w-[58%] ${slide.image_url ? 'w-[55%]' : 'w-full'}`}>
               {/* Badge */}
               {slide.badge_text && (
                 <div className="inline-flex items-center gap-2 bg-accent text-white text-xs font-bold px-3 py-1.5 rounded-full mb-4 uppercase tracking-wider">
@@ -217,24 +217,24 @@ export function HeroBannerClient({ slides }: Props) {
       </div>
 
       {/* Cards abaixo lado a lado */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-2 sm:gap-4">
         {sideCards.map((card) => (
           <Link
             key={card.href}
             href={card.href}
-            className={`relative flex flex-col justify-end p-5 rounded-2xl overflow-hidden min-h-[110px] cursor-pointer group transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-gradient-to-br ${card.bg}`}
+            className={`relative flex flex-col justify-end p-3 sm:p-5 rounded-2xl overflow-hidden min-h-[90px] sm:min-h-[110px] cursor-pointer group transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-gradient-to-br ${card.bg}`}
           >
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.15)_0%,transparent_50%)]" />
             <div className="relative z-10">
-              <p className="text-[0.65rem] font-bold uppercase tracking-widest text-white/75 mb-0.5">
+              <p className="text-[0.55rem] sm:text-[0.65rem] font-bold uppercase tracking-widest text-white/75 mb-0.5">
                 {card.label}
               </p>
-              <h3 className="font-display text-base font-bold text-white leading-snug">
+              <h3 className="font-display text-xs sm:text-base font-bold text-white leading-snug">
                 {card.titleNode ?? card.title}
                 <br />
-                <span className="text-white/90 font-medium text-sm">{card.sub}</span>
+                <span className="text-white/90 font-medium text-[0.65rem] sm:text-sm">{card.sub}</span>
               </h3>
-              <span className="text-xs text-white/70 mt-1 flex items-center gap-1 group-hover:gap-2 transition-all">
+              <span className="text-[0.6rem] sm:text-xs text-white/70 mt-1 flex items-center gap-1 group-hover:gap-2 transition-all">
                 {card.cta} <ArrowRight className="w-3 h-3" />
               </span>
             </div>

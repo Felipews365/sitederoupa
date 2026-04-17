@@ -60,8 +60,8 @@ src/
 │           └── pedidos/
 ├── components/
 │   ├── home/
-│   │   ├── HeroBanner.tsx       # Server component — busca slides do banco (hero_banners), fallback hardcoded
-│   │   ├── HeroBannerClient.tsx # Client component — carrossel animado (Framer Motion), auto-advance 5s, 3 cards abaixo
+│   │   ├── HeroBanner.tsx       # Server component — busca slides do banco (hero_banners), fallback hardcoded (banner_height padrão: 500)
+│   │   ├── HeroBannerClient.tsx # Client component — carrossel animado (Framer Motion), auto-advance 5s, 3 cards abaixo; altura responsiva via clamp(300px, 55vw, max(banner_height,500)px); imagem visível em todos os tamanhos (w-[42%] mobile / w-[38%] desktop); texto limita a w-[55%] quando há imagem, w-full sem imagem; 3 cards sempre em grid-cols-3 (compactos no mobile)
 │   │   └── FlashSaleTimer.tsx   # Countdown timer (client)
 │   ├── layout/
 │   │   ├── Header.tsx    # Promo bar + header azul + nav categorias
@@ -156,6 +156,6 @@ RLS habilitado em todas as tabelas.
 - **Rotas de categoria**: `/categorias/[slug]` — slugs: `camisetas`, `calcas`, `vestidos`, `moletons`, `shorts`, `jaquetas`, `acessorios`
 - **Admin route group**: páginas protegidas do admin ficam em `src/app/admin/(protected)/` — o `layout.tsx` desse grupo verifica `role=admin`. A página de login em `src/app/admin/login/` fica fora do grupo para evitar loop de redirect
 - **Magic UI**: componentes ficam em `src/components/magicui/` — são copy-paste, sem instalar pacote `magicui`. Depende de `framer-motion`. `ShimmerButton` aceita prop `hoverBackground` para cor de hover diferente do estado normal
-- **Carrossel hero**: slides gerenciados via `/admin/banners`. Altura uniforme = max entre todos os slides ativos. Cor do botão por slide via `cta_bg_color` (hover calculado automaticamente: +28% claro)
+- **Carrossel hero**: slides gerenciados via `/admin/banners`. Altura uniforme = max entre todos os slides ativos. Cor do botão por slide via `cta_bg_color` (hover calculado automaticamente: +28% claro). Imagem aparece em todos os breakpoints (mobile incluso); fade de blend: `w-24` mobile / `w-20` desktop
 - **Fontes**: `font-display` → Lexend, `font-sans` → Inter (carregadas via Google Fonts em `globals.css`)
 - **Border radius**: usar `rounded-xl` (1rem) e `rounded-2xl` (1.5rem) para cards, `rounded-full` para botões CTA e pills
