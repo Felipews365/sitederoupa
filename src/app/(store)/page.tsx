@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, Truck, ShieldCheck, RefreshCw, CreditCard, Zap, Clock, Shirt, Star, Users } from 'lucide-react'
+import { ArrowRight, Truck, ShieldCheck, RefreshCw, CreditCard, Zap, Shirt, Star, Users } from 'lucide-react'
 import { HeroBanner } from '@/components/home/HeroBanner'
 import { ProductCard } from '@/components/products/ProductCard'
 import { getFeaturedProducts, getCategories } from '@/actions/products'
@@ -25,16 +25,6 @@ export default async function HomePage() {
     // Supabase ainda não configurado — usando dados de exemplo
   }
   const featuredProducts = dbProducts.length > 0 ? dbProducts : MOCK_PRODUCTS
-
-  const categoryIcons: Record<string, string> = {
-    camisetas: '👕',
-    calcas: '👖',
-    vestidos: '👗',
-    moletons: '🫧',
-    shorts: '🩳',
-    jaquetas: '🧥',
-    acessorios: '👜',
-  }
 
   const trustItems = [
     { icon: ShieldCheck, label: 'Qualidade Garantida', desc: 'Produtos selecionados com cuidado' },
@@ -70,10 +60,23 @@ export default async function HomePage() {
     },
   ]
 
-  const marqueeCategories = [
-    '👕 Camisetas', '👗 Vestidos', '👖 Calças Jeans', '🧥 Jaquetas',
-    '🩳 Shorts', '🫧 Moletons', '👘 Camisa Polo', '👙 Feminino',
-    '🧦 Masculino', '👜 Acessórios', '🧣 Lenços', '🔥 Promoções',
+  const categoryIcons: Record<string, string> = {
+    camisetas: '👕',
+    calcas: '👖',
+    vestidos: '👗',
+    moletons: '🫧',
+    shorts: '🩳',
+    jaquetas: '🧥',
+    acessorios: '👜',
+  }
+
+  const marqueeItems = [
+    { label: '🛍️ Todos', href: '/produtos' },
+    ...categories.map((cat) => ({
+      label: `${categoryIcons[cat.slug] ?? '🛍️'} ${cat.name}`,
+      href: `/categorias/${cat.slug}`,
+    })),
+    { label: '🔥 Promoções', href: '/produtos?promocao=true' },
   ]
 
   return (
@@ -104,13 +107,14 @@ export default async function HomePage() {
         <BlurFade delay={0.15} inView>
           <div className="mb-8 overflow-hidden rounded-xl bg-white border border-border py-1">
             <Marquee pauseOnHover speed={30} repeat={2}>
-              {marqueeCategories.map((cat) => (
-                <span
-                  key={cat}
-                  className="inline-flex items-center gap-1.5 bg-primary-light text-primary text-xs font-semibold px-4 py-2 rounded-full border border-primary-hl cursor-pointer hover:bg-primary hover:text-white transition-colors mx-1.5 whitespace-nowrap"
+              {marqueeItems.map((item) => (
+                <Link
+                  key={item.href + item.label}
+                  href={item.href}
+                  className="inline-flex items-center gap-1.5 bg-primary-light text-primary text-xs font-semibold px-4 py-2 rounded-full border border-primary-hl hover:bg-primary hover:text-white transition-colors mx-1.5 whitespace-nowrap"
                 >
-                  {cat}
-                </span>
+                  {item.label}
+                </Link>
               ))}
             </Marquee>
           </div>
@@ -123,8 +127,17 @@ export default async function HomePage() {
               <h2 className="font-display text-xl font-semibold text-foreground mb-4 flex items-center gap-3 after:flex-1 after:h-px after:bg-border after:content-['']">
                 Categorias
               </h2>
-              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-3">
-                {categories.slice(0, 7).map((cat) => (
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-8 gap-3">
+                <Link
+                  href="/produtos"
+                  className="flex flex-col items-center p-4 bg-white rounded-xl border border-border hover:border-primary hover:bg-primary-light hover:shadow-card-hover transition-all duration-200 group"
+                >
+                  <span className="text-3xl mb-2">🛍️</span>
+                  <span className="text-xs font-medium text-foreground group-hover:text-primary transition-colors text-center leading-tight">
+                    Todos
+                  </span>
+                </Link>
+                {categories.filter((c) => c.show_in_grid).slice(0, 7).map((cat) => (
                   <Link
                     key={cat.id}
                     href={`/categorias/${cat.slug}`}
