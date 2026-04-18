@@ -60,6 +60,7 @@ export async function getProducts({
   maxPrice,
   sizes,
   colors,
+  onSale,
 }: {
   categorySlug?: string
   search?: string
@@ -71,6 +72,7 @@ export async function getProducts({
   maxPrice?: number
   sizes?: string[]
   colors?: string[]
+  onSale?: boolean
 } = {}): Promise<{ products: ProductWithDetails[]; total: number }> {
   const supabase = await createClient()
 
@@ -137,6 +139,10 @@ export async function getProducts({
 
   if (colorFilterIds) {
     query = query.in('id', colorFilterIds)
+  }
+
+  if (onSale) {
+    query = query.not('compare_price', 'is', null)
   }
 
   switch (sortBy) {

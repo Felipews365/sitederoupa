@@ -61,14 +61,17 @@ src/
 ├── components/
 │   ├── home/
 │   │   ├── HeroBanner.tsx       # Server component — busca slides do banco (hero_banners), fallback hardcoded (banner_height padrão: 500)
-│   │   ├── HeroBannerClient.tsx # Client component — carrossel animado (Framer Motion), auto-advance 5s, 3 cards abaixo; altura via clamp(240px, 55vw, banner_height px) — respeita o valor exato do banco; 4 templates: gradient, diagonal, fashion, magazine; image_position controla lado da foto (left/right); AnimatedGradientText em title_highlight em todos os templates
+│   │   ├── HeroBannerClient.tsx # Client component — carrossel animado (Framer Motion), auto-advance 5s, 3 cards abaixo; altura via clamp(240px, 55vw, banner_height px) + min-h-[420px] no mobile; 4 templates: gradient, diagonal, fashion, magazine; image_position controla lado da foto (left/right); AnimatedGradientText em title_highlight em todos os templates; Mobile: imagem ocupa 100% da altura com gradiente escuro sobreposto + texto/botão ancorados no rodapé (overlay)
 │   │   └── FlashSaleTimer.tsx   # Countdown timer (client)
 │   ├── layout/
-│   │   ├── Header.tsx    # Promo bar + header azul + nav categorias
+│   │   ├── Header.tsx    # Promo bar + header azul + nav categorias; logo mobile: "Black" / "Import" empilhados (sm:hidden) para dar espaço à barra de busca
 │   │   └── Footer.tsx    # Footer azul escuro + logos pagamento
 │   ├── products/
 │   │   ├── ProductCard.tsx         # Card com hover effects + size row
-│   │   └── ProductDetailClient.tsx # Página de detalhe (client) — galeria, variantes, carrinho
+│   │   ├── ProductDetailClient.tsx # Página de detalhe (client) — galeria, variantes, carrinho
+│   │   ├── FilterSidebar.tsx       # Sidebar de filtros (client) — categoria, gênero, preço, tamanho, cor
+│   │   ├── MobileFilterSheet.tsx   # Sheet de filtros no mobile (client)
+│   │   └── SortSelect.tsx          # Select de ordenação (client) — necessário por usar onChange; lê/escreve searchParams via useRouter
 │   ├── magicui/          # Componentes Magic UI (copy-paste, sem lib externa)
 │   │   ├── shimmer-button.tsx
 │   │   ├── border-beam.tsx
@@ -154,8 +157,9 @@ RLS habilitado em todas as tabelas.
 - **Imagens de produto**: aspect-ratio `3/4`, `object-cover`, sempre com `alt`
 - **Preços**: sempre em centavos no banco → exibir com `PriceDisplay` de `@/components/shared/PriceDisplay`
 - **Rotas de categoria**: `/categorias/[slug]` — slugs: `camisetas`, `calcas`, `vestidos`, `moletons`, `shorts`, `jaquetas`, `acessorios`
+- **Rota de promoções**: `/produtos?promocao=true` — filtra produtos com `compare_price IS NOT NULL` via parâmetro `onSale` em `getProducts`. O nav link "🔥 Promoções" no Header aponta para essa URL. Não usar `ordenar=price_asc` para esse fim
 - **Admin route group**: páginas protegidas do admin ficam em `src/app/admin/(protected)/` — o `layout.tsx` desse grupo verifica `role=admin`. A página de login em `src/app/admin/login/` fica fora do grupo para evitar loop de redirect
 - **Magic UI**: componentes ficam em `src/components/magicui/` — são copy-paste, sem instalar pacote `magicui`. Depende de `framer-motion`. `ShimmerButton` aceita prop `hoverBackground` para cor de hover diferente do estado normal
-- **Carrossel hero**: slides gerenciados via `/admin/banners`. Altura = `clamp(240px, 55vw, max_banner_height px)` — respeita o valor exato de `banner_height` sem forçar mínimo de 500px. Cor do botão via `cta_bg_color` (hover +28% claro). 4 templates selecionáveis: **gradient** (fundo gradiente), **diagonal** (foto+forma clipPath), **fashion** (foto rect + badge círculo flutuante), **magazine** (fundo branco + texto colorido). `image_position` (left/right) troca o lado da foto em todos os templates. `title_highlight` sempre usa `AnimatedGradientText` — cores adaptam ao fundo (claro/escuro). Mobile: todos os templates empilham (foto topo, conteúdo embaixo)
+- **Carrossel hero**: slides gerenciados via `/admin/banners`. Altura = `clamp(240px, 55vw, max_banner_height px)` + `min-h-[420px] sm:min-h-0`. Cor do botão via `cta_bg_color` (hover +28% claro). 4 templates: **gradient**, **diagonal**, **fashion**, **magazine**. `image_position` (left/right) troca o lado da foto. `title_highlight` sempre usa `AnimatedGradientText`. **Mobile (todos os templates)**: imagem preenche 100% da altura (`absolute inset-0 object-cover`) + overlay `linear-gradient(to top, rgba(0,0,0,0.75)...)` + conteúdo ancorado no rodapé (`absolute bottom-0 px-5 pb-10`)
 - **Fontes**: `font-display` → Lexend, `font-sans` → Inter (carregadas via Google Fonts em `globals.css`)
 - **Border radius**: usar `rounded-xl` (1rem) e `rounded-2xl` (1.5rem) para cards, `rounded-full` para botões CTA e pills

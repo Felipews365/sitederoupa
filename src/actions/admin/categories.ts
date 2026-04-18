@@ -17,20 +17,24 @@ export async function createCategory(input: {
   name: string
   description?: string
   sort_order?: number
-}): Promise<{ success?: boolean; error?: string }> {
+}): Promise<{ category?: { id: string; name: string; slug: string }; error?: string }> {
   const supabase = await createClient()
 
-  const { error } = await supabase.from('categories').insert({
-    name: input.name,
-    slug: slugify(input.name),
-    description: input.description,
-    sort_order: input.sort_order ?? 0,
-  })
+  const { data, error } = await supabase
+    .from('categories')
+    .insert({
+      name: input.name,
+      slug: slugify(input.name),
+      description: input.description,
+      sort_order: input.sort_order ?? 0,
+    })
+    .select('id, name, slug')
+    .single()
 
   if (error) return { error: error.message }
   revalidatePath('/admin/categorias')
   revalidatePath('/')
-  return { success: true }
+  return { category: data }
 }
 
 export async function updateCategory(

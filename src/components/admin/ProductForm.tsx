@@ -2,13 +2,14 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Loader2, Save } from 'lucide-react'
+import { Loader2, Save, Plus, X } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { ImageUploader, type UploadedImage } from '@/components/admin/ImageUploader'
 import { VariantManager, type Variant } from '@/components/admin/VariantManager'
 import { createProduct, updateProduct } from '@/actions/admin/products'
+import { createCategory } from '@/actions/admin/categories'
 import { GENDERS } from '@/lib/constants'
 import { toast } from 'sonner'
 import type { Category } from '@/types/database'
@@ -37,6 +38,10 @@ export function ProductForm({ categories, initialData }: ProductFormProps) {
   const router = useRouter()
   const isEdit = !!initialData
 
+  const [localCategories, setLocalCategories] = useState<Category[]>(categories)
+  const [showNewCat, setShowNewCat] = useState(false)
+  const [newCatName, setNewCatName] = useState('')
+  const [creatingCat, setCreatingCat] = useState(false)
   const [loading, setLoading] = useState(false)
   const [images, setImages] = useState<UploadedImage[]>(
     initialData?.product_images ?? []
@@ -67,6 +72,20 @@ export function ProductForm({ categories, initialData }: ProductFormProps) {
 
   const set = (field: string, value: string | boolean) =>
     setForm((prev) => ({ ...prev, [field]: value }))
+
+  const handleCreateCategory = async () => {
+    if (!newCatName.trim()) return
+    setCreatingCat(true)
+    const result = await createCategory({ name: newCatName.trim() })
+    setCreatingCat(false)
+    if (result.error) { toast.error(result.error); return }
+    const cat = result.category!
+    setLocalCategories((prev) => [...prev, cat as Category])
+    set('category_id', cat.id)
+    setNewCatName('')
+    setShowNewCat(false)
+    toast.success(`Categoria "${cat.name}" criada!`)
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -164,17 +183,49 @@ export function ProductForm({ categories, initialData }: ProductFormProps) {
           </div>
           <div>
             <Label htmlFor="category_id">Categoria</Label>
-            <select
-              id="category_id"
-              value={form.category_id}
-              onChange={(e) => set('category_id', e.target.value)}
-              className="flex h-11 w-full rounded-lg border border-border bg-background px-4 text-sm mt-1.5 focus:outline-none focus:ring-2 focus:ring-primary/30"
-            >
-              <option value="">Sem categoria</option>
-              {categories.map((c) => (
-                <option key={c.id} value={c.id}>{c.name}</option>
-              ))}
-            </select>
+            <div className="flex gap-2 mt-1.5">
+              <select
+                id="category_id"
+                value={form.category_id}
+                onChange={(e) => set('category_id', e.target.value)}
+                className="flex h-11 w-full rounded-lg border border-border bg-background px-4 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+              >
+                <option value="">Sem categoria</option>
+                {localCategories.map((c) => (
+                  <option key={c.id} value={c.id}>{c.name}</option>
+                ))}
+              </select>
+              <button
+                type="button"
+                onClick={() => { setShowNewCat((v) => !v); setNewCatName('') }}
+                title="Nova categoria"
+                className="flex-shrink-0 flex items-center justify-center w-11 h-11 rounded-lg border border-border hover:bg-primary-light hover:border-primary transition-colors"
+              >
+                {showNewCat ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+              </button>
+            </div>
+            {showNewCat && (
+              <div className="flex gap-2 mt-2">
+                <input
+                  type="text"
+                  value={newCatName}
+                  onChange={(e) => setNewCatName(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleCreateCategory())}
+                  placeholder="Nome da nova categoria"
+                  className="flex h-9 w-full rounded-lg border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  autoFocus
+                />
+                <button
+                  type="button"
+                  onClick={handleCreateCategory}
+                  disabled={creatingCat || !newCatName.trim()}
+                  className="flex-shrink-0 flex items-center gap-1.5 px-3 h-9 rounded-lg bg-primary text-white text-sm font-medium disabled:opacity-50 hover:bg-primary/90 transition-colors"
+                >
+                  {creatingCat ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : null}
+                  Criar
+                </button>
+              </div>
+            )}
           </div>
           <div>
             <Label htmlFor="gender">Gênero</Label>

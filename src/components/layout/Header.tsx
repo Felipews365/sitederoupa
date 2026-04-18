@@ -19,7 +19,7 @@ const navLinks = [
   { href: '/categorias/jaquetas', label: '🧥 Jaquetas' },
   { href: '/categorias/shorts', label: '🩳 Shorts' },
   { href: '/categorias/moletons', label: '🫧 Moletons' },
-  { href: '/produtos?ordenar=price_asc', label: '🔥 Promoções' },
+  { href: '/produtos?promocao=true', label: '🔥 Promoções' },
 ]
 
 export function Header() {
@@ -87,9 +87,10 @@ export function Header() {
                 Moda &amp; Estilo
               </span>
             </div>
-            <span className="sm:hidden font-display text-lg font-bold text-white leading-none">
-              MV
-            </span>
+            <div className="sm:hidden flex flex-col items-start leading-none">
+              <span className="font-display text-sm font-bold text-white leading-none">Black</span>
+              <span className="font-display text-sm font-bold leading-none" style={{ color: '#FFD600' }}>Import</span>
+            </div>
           </Link>
 
           {/* Search Bar */}

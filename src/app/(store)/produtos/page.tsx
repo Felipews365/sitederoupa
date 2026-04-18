@@ -4,7 +4,7 @@ import { ProductCard } from '@/components/products/ProductCard'
 import { Skeleton } from '@/components/ui/skeleton'
 import { FilterSidebar } from '@/components/products/FilterSidebar'
 import { MobileFilterSheet } from '@/components/products/MobileFilterSheet'
-import { SORT_OPTIONS } from '@/lib/constants'
+import { SortSelect } from '@/components/products/SortSelect'
 import Link from 'next/link'
 
 interface ProductsPageProps {
@@ -18,6 +18,7 @@ interface ProductsPageProps {
     tamanhos?: string
     cores?: string
     q?: string
+    promocao?: string
   }>
 }
 
@@ -45,6 +46,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
       maxPrice: params.preco_max ? Number(params.preco_max) : undefined,
       sizes,
       colors,
+      onSale: params.promocao === 'true',
     }),
     getCategories(),
     getAvailableColors(),
@@ -92,6 +94,8 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               <h1 className="font-display text-xl font-bold text-foreground truncate">
                 {params.q
                   ? `Resultados para "${params.q}"`
+                  : params.promocao === 'true'
+                  ? '🔥 Promoções'
                   : params.categoria
                   ? categories.find((c) => c.slug === params.categoria)?.name ?? 'Produtos'
                   : 'Todos os Produtos'}
@@ -113,22 +117,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               </div>
 
               {/* Ordenação */}
-              <select
-                defaultValue={params.ordenar ?? 'newest'}
-                onChange={(e) => {
-                  const url = new URL(window.location.href)
-                  url.searchParams.set('ordenar', e.target.value)
-                  url.searchParams.delete('pagina')
-                  window.location.href = url.toString()
-                }}
-                className="text-sm border border-border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/30"
-              >
-                {SORT_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
+              <SortSelect value={params.ordenar} />
             </div>
           </div>
 
