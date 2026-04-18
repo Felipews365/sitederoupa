@@ -17,6 +17,8 @@ export interface HeroBanner {
   image_url: string | null
   banner_height: number
   cta_bg_color: string
+  template: string
+  image_position: string | null
   sort_order: number
   active: boolean
   created_at: string

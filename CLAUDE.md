@@ -61,7 +61,7 @@ src/
 ├── components/
 │   ├── home/
 │   │   ├── HeroBanner.tsx       # Server component — busca slides do banco (hero_banners), fallback hardcoded (banner_height padrão: 500)
-│   │   ├── HeroBannerClient.tsx # Client component — carrossel animado (Framer Motion), auto-advance 5s, 3 cards abaixo; altura responsiva via clamp(300px, 55vw, max(banner_height,500)px); imagem visível em todos os tamanhos (w-[42%] mobile / w-[38%] desktop); texto limita a w-[55%] quando há imagem, w-full sem imagem; 3 cards sempre em grid-cols-3 (compactos no mobile)
+│   │   ├── HeroBannerClient.tsx # Client component — carrossel animado (Framer Motion), auto-advance 5s, 3 cards abaixo; altura via clamp(240px, 55vw, banner_height px) — respeita o valor exato do banco; 4 templates: gradient, diagonal, fashion, magazine; image_position controla lado da foto (left/right); AnimatedGradientText em title_highlight em todos os templates
 │   │   └── FlashSaleTimer.tsx   # Countdown timer (client)
 │   ├── layout/
 │   │   ├── Header.tsx    # Promo bar + header azul + nav categorias
@@ -105,7 +105,7 @@ Schema em `supabase/schema.sql`. Tabelas principais:
 - `orders` / `order_items` — pedidos
 - `carts` / `cart_items` — carrinho persistido
 - `addresses` — endereços do usuário
-- `hero_banners` — slides do carrossel da homepage (`title`, `title_highlight`, `subtitle`, `badge_text`, `cta_label`, `cta_href`, `cta_bg_color`, `bg_from`, `bg_via`, `bg_to`, `image_url`, `banner_height`, `sort_order`, `active`) — RLS: leitura pública, escrita apenas admin
+- `hero_banners` — slides do carrossel da homepage (`title`, `title_highlight`, `subtitle`, `badge_text`, `cta_label`, `cta_href`, `cta_bg_color`, `bg_from`, `bg_via`, `bg_to`, `image_url`, `banner_height`, `template`, `image_position`, `sort_order`, `active`) — RLS: leitura pública, escrita apenas admin. `template`: `gradient` | `diagonal` | `fashion` | `magazine`. `image_position`: `left` | `right` | null (null = padrão do template: gradient/magazine→right, diagonal/fashion→left)
 
 RLS habilitado em todas as tabelas.
 
@@ -156,6 +156,6 @@ RLS habilitado em todas as tabelas.
 - **Rotas de categoria**: `/categorias/[slug]` — slugs: `camisetas`, `calcas`, `vestidos`, `moletons`, `shorts`, `jaquetas`, `acessorios`
 - **Admin route group**: páginas protegidas do admin ficam em `src/app/admin/(protected)/` — o `layout.tsx` desse grupo verifica `role=admin`. A página de login em `src/app/admin/login/` fica fora do grupo para evitar loop de redirect
 - **Magic UI**: componentes ficam em `src/components/magicui/` — são copy-paste, sem instalar pacote `magicui`. Depende de `framer-motion`. `ShimmerButton` aceita prop `hoverBackground` para cor de hover diferente do estado normal
-- **Carrossel hero**: slides gerenciados via `/admin/banners`. Altura uniforme = max entre todos os slides ativos. Cor do botão por slide via `cta_bg_color` (hover calculado automaticamente: +28% claro). Imagem aparece em todos os breakpoints (mobile incluso); fade de blend: `w-24` mobile / `w-20` desktop
+- **Carrossel hero**: slides gerenciados via `/admin/banners`. Altura = `clamp(240px, 55vw, max_banner_height px)` — respeita o valor exato de `banner_height` sem forçar mínimo de 500px. Cor do botão via `cta_bg_color` (hover +28% claro). 4 templates selecionáveis: **gradient** (fundo gradiente), **diagonal** (foto+forma clipPath), **fashion** (foto rect + badge círculo flutuante), **magazine** (fundo branco + texto colorido). `image_position` (left/right) troca o lado da foto em todos os templates. `title_highlight` sempre usa `AnimatedGradientText` — cores adaptam ao fundo (claro/escuro). Mobile: todos os templates empilham (foto topo, conteúdo embaixo)
 - **Fontes**: `font-display` → Lexend, `font-sans` → Inter (carregadas via Google Fonts em `globals.css`)
 - **Border radius**: usar `rounded-xl` (1rem) e `rounded-2xl` (1.5rem) para cards, `rounded-full` para botões CTA e pills
