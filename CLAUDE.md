@@ -64,8 +64,10 @@ src/
 │   │   ├── HeroBannerClient.tsx # Client component — carrossel animado (Framer Motion), auto-advance 5s, 3 cards abaixo; altura via clamp(240px, 55vw, banner_height px) + min-h-[420px] no mobile; 4 templates: gradient, diagonal, fashion, magazine; image_position controla lado da foto (left/right); AnimatedGradientText em title_highlight em todos os templates; Mobile: imagem ocupa 100% da altura com gradiente escuro sobreposto + texto/botão ancorados no rodapé (overlay)
 │   │   └── FlashSaleTimer.tsx   # Countdown timer (client)
 │   ├── layout/
-│   │   ├── Header.tsx    # Promo bar + header azul + nav categorias; logo mobile: "Black" / "Import" empilhados (sm:hidden) para dar espaço à barra de busca
-│   │   └── Footer.tsx    # Footer azul escuro + logos pagamento
+│   │   ├── Header.tsx           # Server component wrapper — busca categorias ativas do banco e passa para HeaderClient
+│   │   ├── HeaderClient.tsx     # Client component — promo bar + header azul + nav categorias dinâmico; mostra até 6 categorias no nav desktop + CategoryDropdown para o restante; mobile: lista todas; logo mobile: "Black"/"Import" empilhados
+│   │   ├── CategoryDropdown.tsx # Client component — dropdown animado (Framer Motion) "Ver todas ▾" para categorias além das 6 no nav desktop; grid 2 colunas
+│   │   └── Footer.tsx           # Footer azul escuro + logos pagamento
 │   ├── products/
 │   │   ├── ProductCard.tsx         # Card com hover effects + size row
 │   │   ├── ProductDetailClient.tsx # Página de detalhe (client) — galeria, variantes, carrinho
@@ -85,7 +87,7 @@ src/
 │   ├── admin/
 │   │   ├── banners.ts    # CRUD hero_banners (getAllBanners, getActiveBanners, create/update/delete/reorder)
 │   │   ├── products.ts
-│   │   ├── categories.ts
+│   │   ├── categories.ts # CRUD categorias + toggleCategoryGrid(id, bool) — alterna show_in_grid
 │   │   └── orders.ts
 │   └── ...               # Outras server actions (Supabase queries)
 ├── store/
@@ -101,7 +103,7 @@ src/
 Schema em `supabase/schema.sql`. Tabelas principais:
 
 - `profiles` — dados do usuário (role: `customer` | `admin`)
-- `categories` — categorias de produtos (com `slug`)
+- `categories` — categorias de produtos (com `slug`, `sort_order`, `active`, `show_in_grid`) — `show_in_grid`: boolean (padrão `true`) controla quais aparecem no grid da homepage (máx 7 + card "Todos" = 8); gerenciado em `/admin/categorias`; o marquee usa todas as categorias ativas independente de `show_in_grid`
 - `products` — produtos (com `slug`, `price`, `compare_price`, `featured`)
 - `product_images` — imagens dos produtos (`is_primary`, `url`, `alt_text`)
 - `product_variants` — variantes (`size`, `color`, `stock`, `sku`)
@@ -157,6 +159,9 @@ RLS habilitado em todas as tabelas.
 - **Imagens de produto**: aspect-ratio `3/4`, `object-cover`, sempre com `alt`
 - **Preços**: sempre em centavos no banco → exibir com `PriceDisplay` de `@/components/shared/PriceDisplay`
 - **Rotas de categoria**: `/categorias/[slug]` — slugs: `camisetas`, `calcas`, `vestidos`, `moletons`, `shorts`, `jaquetas`, `acessorios`
+- **Grid de categorias na homepage**: mostra card "🛍️ Todos" (→ `/produtos`) + até 7 categorias com `show_in_grid = true` ordenadas por `sort_order`. Total máx = 8 cards. Gerencie em `/admin/categorias` — toggle por linha na tabela, contador X/8 no cabeçalho
+- **Marquee de categorias na homepage**: usa todas as categorias ativas (ignora `show_in_grid`), cada item é um `Link` clicável — "Todos" no início, "Promoções" no fim
+- **Nav do Header**: dinâmico, busca categorias ativas do banco. Desktop: "✨ Novidades" + primeiras 6 categorias + "Ver todas ▾" (se >6) + "🔥 Promoções". Mobile: lista todas sem limite
 - **Rota de promoções**: `/produtos?promocao=true` — filtra produtos com `compare_price IS NOT NULL` via parâmetro `onSale` em `getProducts`. O nav link "🔥 Promoções" no Header aponta para essa URL. Não usar `ordenar=price_asc` para esse fim
 - **Admin route group**: páginas protegidas do admin ficam em `src/app/admin/(protected)/` — o `layout.tsx` desse grupo verifica `role=admin`. A página de login em `src/app/admin/login/` fica fora do grupo para evitar loop de redirect
 - **Magic UI**: componentes ficam em `src/components/magicui/` — são copy-paste, sem instalar pacote `magicui`. Depende de `framer-motion`. `ShimmerButton` aceita prop `hoverBackground` para cor de hover diferente do estado normal

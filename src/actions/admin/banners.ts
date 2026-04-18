@@ -15,6 +15,8 @@ export interface HeroBanner {
   bg_via: string | null
   bg_to: string
   image_url: string | null
+  image_url_2: string | null
+  image_url_3: string | null
   banner_height: number
   cta_bg_color: string
   template: string
