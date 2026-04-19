@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Plus, Pencil, Trash2, ImagePlay, ArrowUp, ArrowDown, Eye, EyeOff, Upload, X, Loader2, Image as ImageIcon, ArrowRight, Sparkles } from 'lucide-react'
+import { Plus, Pencil, Trash2, ImagePlay, ArrowUp, ArrowDown, Eye, EyeOff, Upload, X, Loader2, Image as ImageIcon, ArrowRight, Sparkles, Smartphone } from 'lucide-react'
 import Image from 'next/image'
 import {
   getAllBanners,
@@ -56,6 +56,15 @@ function BannerPreview({ form }: { form: BannerFormData }) {
   const template = form.template ?? 'gradient'
   const photoLeft = form.image_position === 'left'
 
+  const Hl = ({ t }: { t: string }) => (
+    <span style={{ background: 'linear-gradient(90deg,#FFD600,#fff,#9DC4FF)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{t}</span>
+  )
+  const CTA = ({ bg, small }: { bg?: string; small?: boolean }) => (
+    <div className="inline-flex items-center gap-1 text-white font-bold rounded-full w-fit" style={{ background: bg ?? '#FF6B00', fontSize: small ? '7px' : 'clamp(7px,0.9vw,10px)', padding: small ? '2px 6px' : undefined }}>
+      {form.cta_label || 'Ver coleção'}<ArrowRight style={{ width: '0.65em', height: '0.65em' }} />
+    </div>
+  )
+
   return (
     <div className="sticky top-6">
       <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
@@ -66,17 +75,7 @@ function BannerPreview({ form }: { form: BannerFormData }) {
         className="relative rounded-2xl overflow-hidden w-full"
         style={{ height: previewHeight, background: template === 'gradient' ? gradient : template === 'fashion' ? '#f5f0ec' : '#fff' }}
       >
-        {/* helpers reutilizáveis */}
         {(() => {
-          const Hl = ({ t }: { t: string }) => (
-            <span style={{ background: 'linear-gradient(90deg,#FFD600,#fff,#9DC4FF)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{t}</span>
-          )
-          const CTA = ({ bg }: { bg?: string }) => (
-            <div className="inline-flex items-center gap-1 text-white font-bold rounded-full px-2.5 py-1 w-fit" style={{ background: bg ?? '#FF6B00', fontSize: 'clamp(7px,0.9vw,10px)' }}>
-              {form.cta_label || 'Ver coleção'}<ArrowRight style={{ width: '0.65em', height: '0.65em' }} />
-            </div>
-          )
-
           if (template === 'diagonal') {
             const shapeClipRight = 'polygon(22% 0, 100% 0, 100% 100%, 0 100%)'
             const shapeClipLeft  = 'polygon(0 0, 78% 0, 100% 100%, 0 100%)'
@@ -84,18 +83,18 @@ function BannerPreview({ form }: { form: BannerFormData }) {
             const photoClipRight = 'polygon(18% 0, 100% 0, 100% 100%, 0 100%)'
             return (
               <>
-                {photoLeft ? (
-                  <div className="absolute inset-y-0 right-0 w-[60%]" style={{ background: gradient, clipPath: shapeClipRight }} />
-                ) : (
-                  <div className="absolute inset-y-0 left-0 w-[60%]" style={{ background: gradient, clipPath: shapeClipLeft }} />
-                )}
                 {form.image_url && (
                   <div className={`absolute inset-y-0 ${photoLeft ? 'left-0' : 'right-0'} w-[54%]`}
                     style={{ clipPath: photoLeft ? photoClipLeft : photoClipRight }}>
                     <Image src={form.image_url} alt="preview" fill className="object-cover object-center" sizes="40vw" />
                   </div>
                 )}
-                <div className={`absolute inset-y-0 ${photoLeft ? 'right-0' : 'left-0'} w-[52%] flex flex-col justify-center px-4 z-10`}>
+                {photoLeft ? (
+                  <div className="absolute inset-y-0 right-0 w-[60%] z-10" style={{ background: gradient, clipPath: shapeClipRight }} />
+                ) : (
+                  <div className="absolute inset-y-0 left-0 w-[60%] z-10" style={{ background: gradient, clipPath: shapeClipLeft }} />
+                )}
+                <div className={`absolute inset-y-0 ${photoLeft ? 'right-0' : 'left-0'} w-[52%] flex flex-col justify-center px-4 z-20`}>
                   {form.badge_text && <div className="inline-flex items-center gap-1 bg-white/20 text-white text-[0.5rem] font-bold px-2 py-0.5 rounded-full mb-1.5 uppercase tracking-wider w-fit"><Sparkles className="w-2 h-2" />{form.badge_text}</div>}
                   <div className="font-bold text-white leading-tight mb-1" style={{ fontSize: 'clamp(13px,2.2vw,20px)' }}>
                     {form.title || <span className="opacity-40">Título</span>}
@@ -323,9 +322,79 @@ function BannerPreview({ form }: { form: BannerFormData }) {
         })()}
       </div>
 
-      <p className="text-[0.65rem] text-muted-foreground mt-1.5 text-center">
+      <p className="text-[0.65rem] text-muted-foreground mt-1 text-center">
         O gradiente animado do texto destaque é exibido somente na loja.
       </p>
+
+      {/* ── Prévia Mobile ─────────────────────────────── */}
+      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-4 mb-2 flex items-center gap-1.5">
+        <Smartphone className="w-3 h-3" /> Mobile
+      </p>
+      <div className="flex justify-center">
+        <div
+          className="relative rounded-2xl overflow-hidden bg-white"
+          style={{ width: 176, height: 290 }}
+        >
+          {template === 'diagonal' ? (() => {
+            const side = photoLeft ? 'right' : 'left'
+            const clip = photoLeft
+              ? 'polygon(22% 0, 100% 0, 100% 100%, 0 100%)'
+              : 'polygon(0 0, 78% 0, 100% 100%, 0 100%)'
+            return (
+              <>
+                {form.image_url ? (
+                  <div className="absolute inset-0">
+                    <Image src={form.image_url} alt="mobile" fill
+                      className={`object-cover ${photoLeft ? 'object-left' : 'object-right'}`} sizes="176px" />
+                  </div>
+                ) : <div className="absolute inset-0 bg-gray-100" />}
+                <div className={`absolute inset-y-0 ${side}-0 w-[62%] z-10`}
+                  style={{ background: gradient, clipPath: clip }} />
+                <div className={`absolute inset-y-0 ${side}-0 w-[60%] flex flex-col justify-center px-3 z-20`}>
+                  {form.badge_text && <div className="text-white/80 text-[0.42rem] font-bold uppercase tracking-wider mb-0.5">{form.badge_text}</div>}
+                  <div className="font-bold text-white leading-tight mb-1" style={{ fontSize: '10px' }}>
+                    {form.title || <span className="opacity-40">Título</span>}
+                    {form.title_highlight && <><br /><Hl t={form.title_highlight} /></>}
+                  </div>
+                  {form.subtitle && <p className="text-white/75 line-clamp-2 mb-1" style={{ fontSize: '6.5px' }}>{form.subtitle}</p>}
+                  <CTA bg={form.cta_bg_color ?? '#FF6B00'} small />
+                </div>
+              </>
+            )
+          })() : (
+            /* Outros templates: mesmo layout desktop em container portrait */
+            <div className="absolute inset-0" style={{ background: template === 'gradient' ? gradient : template === 'fashion' ? '#f5f0ec' : '#fff' }}>
+              {(() => {
+                if (template === 'gradient') return (
+                  <>
+                    {form.image_url && (
+                      <div className={`absolute ${photoLeft ? 'left-0' : 'right-0'} top-0 bottom-0 w-[45%]`}>
+                        <div className={`absolute inset-y-0 ${photoLeft ? 'right-0' : 'left-0'} w-8 z-10`}
+                          style={{ background: `linear-gradient(to ${photoLeft ? 'left' : 'right'}, ${fadeColor}, transparent)` }} />
+                        <Image src={form.image_url} alt="m" fill className="object-cover object-top" sizes="80px" />
+                      </div>
+                    )}
+                    <div className={`relative z-10 h-full flex flex-col justify-end p-3 max-w-[60%] ${photoLeft && form.image_url ? 'ml-auto' : ''}`}>
+                      {form.badge_text && <div className="inline-flex items-center gap-0.5 bg-[#FF6B00] text-white text-[0.4rem] font-bold px-1.5 py-0.5 rounded-full mb-1 uppercase w-fit"><Sparkles className="w-1.5 h-1.5" />{form.badge_text}</div>}
+                      <div className="font-bold text-white leading-tight mb-1" style={{ fontSize: '11px' }}>
+                        {form.title || <span className="opacity-40">Título</span>}
+                        {form.title_highlight && <><br /><Hl t={form.title_highlight} /></>}
+                      </div>
+                      {form.subtitle && <p className="text-white/75 mb-1 line-clamp-2" style={{ fontSize: '6.5px' }}>{form.subtitle}</p>}
+                      <CTA bg={form.cta_bg_color ?? '#FF6B00'} small />
+                    </div>
+                  </>
+                )
+                return (
+                  <div className="h-full flex items-center justify-center">
+                    <p className="text-[0.5rem] text-muted-foreground text-center px-2">Prévia mobile disponível apenas no template Diagonal</p>
+                  </div>
+                )
+              })()}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   )
 }

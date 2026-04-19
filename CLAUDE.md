@@ -71,7 +71,7 @@ src/
 │   │   └── Footer.tsx           # Footer azul escuro + logos pagamento
 │   ├── products/
 │   │   ├── ProductCard.tsx         # Card com hover effects + size row
-│   │   ├── ProductDetailClient.tsx # Página de detalhe (client) — galeria, variantes, carrinho
+│   │   ├── ProductDetailClient.tsx # Página de detalhe (client) — galeria, variantes, carrinho; swipe horizontal na imagem principal (mín 40px) via onTouchStart/onTouchEnd + useRef
 │   │   ├── FilterSidebar.tsx       # Sidebar de filtros (client) — categoria, gênero, preço, tamanho, cor
 │   │   ├── MobileFilterSheet.tsx   # Sheet de filtros no mobile (client)
 │   │   └── SortSelect.tsx          # Select de ordenação (client) — necessário por usar onChange; lê/escreve searchParams via useRouter

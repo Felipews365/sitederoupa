@@ -52,29 +52,27 @@ function DiagonalSlide({ slide }: { slide: HeroBanner }) {
       <div className="absolute inset-0">
         {photoLeft ? (
           <>
-            <div className="absolute inset-y-0 right-0 w-[60%]"
-              style={{ background: shapeGradient, clipPath: 'polygon(22% 0, 100% 0, 100% 100%, 0 100%)' }} />
             {slide.image_url && (
-              <div className="absolute inset-y-0 left-0 w-[54%]"
-                style={{ clipPath: 'polygon(0 0, 100% 0, 82% 100%, 0 100%)' }}>
-                <Image src={slide.image_url} alt={slide.title} fill className="object-cover object-center" sizes="54vw" priority />
+              <div className="absolute inset-0 sm:inset-y-0 sm:right-auto sm:left-0 sm:w-[54%] sm:[clip-path:polygon(0_0,100%_0,82%_100%,0_100%)]">
+                <Image src={slide.image_url} alt={slide.title} fill className="object-cover object-left sm:object-center" sizes="(max-width:640px) 100vw, 54vw" priority />
               </div>
             )}
-            <div className="absolute inset-y-0 right-0 w-[52%] flex flex-col justify-center px-4 sm:px-8 lg:px-12 z-10">
+            <div className="absolute inset-y-0 right-0 w-[60%] z-10"
+              style={{ background: shapeGradient, clipPath: 'polygon(22% 0, 100% 0, 100% 100%, 0 100%)' }} />
+            <div className="absolute inset-y-0 right-0 w-[52%] flex flex-col justify-center px-4 sm:px-8 lg:px-12 z-20">
               <TextContent slide={slide} btnBase={btnBase} btnDark={btnDark} btnLight={btnLight} />
             </div>
           </>
         ) : (
           <>
-            <div className="absolute inset-y-0 left-0 w-[60%]"
-              style={{ background: shapeGradient, clipPath: 'polygon(0 0, 78% 0, 100% 100%, 0 100%)' }} />
             {slide.image_url && (
-              <div className="absolute inset-y-0 right-0 w-[54%]"
-                style={{ clipPath: 'polygon(18% 0, 100% 0, 100% 100%, 0 100%)' }}>
-                <Image src={slide.image_url} alt={slide.title} fill className="object-cover object-center" sizes="54vw" priority />
+              <div className="absolute inset-0 sm:inset-y-0 sm:left-auto sm:right-0 sm:w-[54%] sm:[clip-path:polygon(18%_0,100%_0,100%_100%,0_100%)]">
+                <Image src={slide.image_url} alt={slide.title} fill className="object-cover object-right sm:object-center" sizes="(max-width:640px) 100vw, 54vw" priority />
               </div>
             )}
-            <div className="absolute inset-y-0 left-0 w-[52%] flex flex-col justify-center px-4 sm:px-8 lg:px-12 z-10">
+            <div className="absolute inset-y-0 left-0 w-[60%] z-10"
+              style={{ background: shapeGradient, clipPath: 'polygon(0 0, 78% 0, 100% 100%, 0 100%)' }} />
+            <div className="absolute inset-y-0 left-0 w-[52%] flex flex-col justify-center px-4 sm:px-8 lg:px-12 z-20">
               <TextContent slide={slide} btnBase={btnBase} btnDark={btnDark} btnLight={btnLight} />
             </div>
           </>
