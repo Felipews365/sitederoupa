@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ShoppingBag, ChevronLeft, ChevronRight } from 'lucide-react'
@@ -29,6 +29,25 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [selectedImage, setSelectedImage] = useState(0)
   const [quantity, setQuantity] = useState(1)
   const { addItem } = useCartStore()
+
+  const touchStartX = useRef<number | null>(null)
+  const touchEndX = useRef<number | null>(null)
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+    touchEndX.current = null
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    touchEndX.current = e.changedTouches[0].clientX
+    const delta = (touchStartX.current ?? 0) - (touchEndX.current ?? 0)
+    if (Math.abs(delta) < 40 || images.length <= 1) return
+    if (delta > 0) {
+      setSelectedImage((i) => (i + 1) % images.length)
+    } else {
+      setSelectedImage((i) => (i - 1 + images.length) % images.length)
+    }
+  }
 
   const selectedVariant = variants.find(
     (v) =>
@@ -94,7 +113,11 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
         {/* Galeria de imagens */}
         <div>
           {/* Imagem principal */}
-          <div className="relative aspect-square bg-muted rounded-xl overflow-hidden mb-3">
+          <div
+            className="relative aspect-square bg-muted rounded-xl overflow-hidden mb-3"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
             {images.length > 0 ? (
               <>
                 <Image
