@@ -49,69 +49,32 @@ function DiagonalSlide({ slide }: { slide: HeroBanner }) {
 
   return (
     <div className="absolute inset-0 bg-white overflow-hidden">
-      {/* Mobile — overlay */}
-      <div className="sm:hidden absolute inset-0">
-        {slide.image_url
-          ? <Image src={slide.image_url} alt={slide.title} fill className="object-cover object-center" sizes="100vw" priority />
-          : <div className="absolute inset-0" style={{ background: shapeGradient }} />}
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 55%, transparent 100%)' }} />
-        <div className="absolute bottom-0 left-0 right-0 px-5 pb-10">
-          {slide.badge_text && (
-            <div className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full mb-2 uppercase tracking-wider w-fit">
-              <Sparkles className="w-2.5 h-2.5" />{slide.badge_text}
-            </div>
-          )}
-          <h1 className="font-display text-2xl font-bold text-white leading-tight mb-1.5 drop-shadow">
-            {slide.title}
-            {slide.title_highlight && (
-              <><br /><AnimatedGradientText colorFrom="#FFD600" colorMid="#ffffff" colorTo="#9DC4FF" speed={3}>{slide.title_highlight}</AnimatedGradientText></>
-            )}
-          </h1>
-          {slide.subtitle && <p className="text-white/85 text-xs mb-3 line-clamp-2 drop-shadow">{slide.subtitle}</p>}
-          <Link href={slide.cta_href}>
-            <ShimmerButton className="text-xs font-bold"
-              background={`radial-gradient(ellipse 80% 50% at 50% 120%, ${btnBase}, ${btnDark})`}
-              hoverBackground={`radial-gradient(ellipse 80% 50% at 50% 120%, ${btnLight}, ${btnBase})`}
-              shimmerColor="#fff">
-              {slide.cta_label}<ArrowRight className="w-3.5 h-3.5" />
-            </ShimmerButton>
-          </Link>
-        </div>
-      </div>
-
-      {/* Desktop */}
-      <div className="hidden sm:block absolute inset-0">
+      <div className="absolute inset-0">
         {photoLeft ? (
           <>
-            {/* Forma direita */}
             <div className="absolute inset-y-0 right-0 w-[60%]"
               style={{ background: shapeGradient, clipPath: 'polygon(22% 0, 100% 0, 100% 100%, 0 100%)' }} />
-            {/* Foto esquerda com clip diagonal */}
             {slide.image_url && (
               <div className="absolute inset-y-0 left-0 w-[54%]"
                 style={{ clipPath: 'polygon(0 0, 100% 0, 82% 100%, 0 100%)' }}>
                 <Image src={slide.image_url} alt={slide.title} fill className="object-cover object-center" sizes="54vw" priority />
               </div>
             )}
-            {/* Texto direita */}
-            <div className="absolute inset-y-0 right-0 w-[52%] flex flex-col justify-center px-8 lg:px-12 z-10">
+            <div className="absolute inset-y-0 right-0 w-[52%] flex flex-col justify-center px-4 sm:px-8 lg:px-12 z-10">
               <TextContent slide={slide} btnBase={btnBase} btnDark={btnDark} btnLight={btnLight} />
             </div>
           </>
         ) : (
           <>
-            {/* Forma esquerda */}
             <div className="absolute inset-y-0 left-0 w-[60%]"
               style={{ background: shapeGradient, clipPath: 'polygon(0 0, 78% 0, 100% 100%, 0 100%)' }} />
-            {/* Foto direita com clip diagonal */}
             {slide.image_url && (
               <div className="absolute inset-y-0 right-0 w-[54%]"
                 style={{ clipPath: 'polygon(18% 0, 100% 0, 100% 100%, 0 100%)' }}>
                 <Image src={slide.image_url} alt={slide.title} fill className="object-cover object-center" sizes="54vw" priority />
               </div>
             )}
-            {/* Texto esquerda */}
-            <div className="absolute inset-y-0 left-0 w-[52%] flex flex-col justify-center px-8 lg:px-12 z-10">
+            <div className="absolute inset-y-0 left-0 w-[52%] flex flex-col justify-center px-4 sm:px-8 lg:px-12 z-10">
               <TextContent slide={slide} btnBase={btnBase} btnDark={btnDark} btnLight={btnLight} />
             </div>
           </>
@@ -159,87 +122,48 @@ function FashionSlide({ slide }: { slide: HeroBanner }) {
 
   return (
     <div className="absolute inset-0 bg-[#f5f0ec] overflow-hidden">
-      {/* Mobile — overlay */}
-      <div className="sm:hidden absolute inset-0">
-        {slide.image_url
-          ? <Image src={slide.image_url} alt={slide.title} fill className="object-cover object-top" sizes="100vw" priority />
-          : <div className="absolute inset-0" style={{ background: shapeGradient }} />}
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 55%, transparent 100%)' }} />
-        <div className="absolute bottom-0 left-0 right-0 px-5 pb-10">
-          {slide.badge_text && (
-            <div className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full mb-2 uppercase tracking-wider w-fit">
-              <Sparkles className="w-2.5 h-2.5" />{slide.badge_text}
-            </div>
-          )}
-          {slide.title && <p className="text-white/75 text-xs font-semibold uppercase tracking-widest mb-1 drop-shadow">{slide.title}</p>}
-          <h1 className="font-display text-2xl font-black text-white leading-tight mb-1.5 drop-shadow">
-            <AnimatedGradientText colorFrom="#FFD600" colorMid="#ffffff" colorTo="#9DC4FF" speed={3}>
-              {slide.title_highlight || slide.title}
-            </AnimatedGradientText>
-          </h1>
-          {slide.subtitle && <p className="text-white/85 text-xs mb-3 line-clamp-2 drop-shadow">{slide.subtitle}</p>}
-          <Link href={slide.cta_href}>
-            <ShimmerButton className="text-xs font-bold"
-              background={`radial-gradient(ellipse 80% 50% at 50% 120%, ${btnBase}, ${btnDark})`}
-              hoverBackground={`radial-gradient(ellipse 80% 50% at 50% 120%, ${btnLight}, ${btnBase})`}
-              shimmerColor="#fff">
-              {slide.cta_label}<ArrowRight className="w-3.5 h-3.5" />
-            </ShimmerButton>
-          </Link>
-        </div>
-      </div>
-
-      {/* Desktop */}
-      <div className="hidden sm:block absolute inset-0">
+      <div className="absolute inset-0">
         {photoLeft ? (
           <>
-            {/* Forma direita */}
             <div className="absolute inset-y-0 right-0 w-[68%]"
               style={{ background: shapeGradient, clipPath: 'polygon(18% 0, 100% 0, 100% 100%, 0 100%)' }} />
-            {/* Foto esquerda rect */}
             {slide.image_url && (
               <div className="absolute inset-y-0 left-0 w-[46%]">
                 <Image src={slide.image_url} alt={slide.title} fill className="object-cover object-center" sizes="46vw" priority />
                 <div className="absolute inset-y-0 right-0 w-16" style={{ background: `linear-gradient(to right, transparent, ${slide.bg_from})` }} />
               </div>
             )}
-            {/* Badge círculo na interseção */}
             {slide.badge_text && (
               <div className="absolute z-20 pointer-events-none" style={{ left: slide.image_url ? '43%' : '18%', top: '50%', transform: 'translate(-50%, -50%)' }}>
-                <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-full bg-white shadow-xl flex flex-col items-center justify-center text-center p-2"
+                <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-full bg-white shadow-xl flex flex-col items-center justify-center text-center p-2"
                   style={{ border: `3px solid ${adjustHex(slide.bg_from, 0.4)}` }}>
                   <Sparkles className="w-3 h-3 mb-0.5" style={{ color: slide.bg_from }} />
-                  <span className="text-[0.55rem] lg:text-[0.6rem] font-black uppercase leading-tight" style={{ color: slide.bg_from }}>{slide.badge_text}</span>
+                  <span className="text-[0.5rem] sm:text-[0.55rem] lg:text-[0.6rem] font-black uppercase leading-tight" style={{ color: slide.bg_from }}>{slide.badge_text}</span>
                 </div>
               </div>
             )}
-            {/* Texto direita */}
-            <div className="absolute inset-y-0 right-0 w-[56%] flex flex-col justify-center px-8 lg:px-14 z-10"><TextBlock /></div>
+            <div className="absolute inset-y-0 right-0 w-[56%] flex flex-col justify-center px-4 sm:px-8 lg:px-14 z-10"><TextBlock /></div>
           </>
         ) : (
           <>
-            {/* Forma esquerda */}
             <div className="absolute inset-y-0 left-0 w-[68%]"
               style={{ background: shapeGradient, clipPath: 'polygon(0 0, 82% 0, 100% 100%, 0 100%)' }} />
-            {/* Foto direita rect */}
             {slide.image_url && (
               <div className="absolute inset-y-0 right-0 w-[46%]">
                 <Image src={slide.image_url} alt={slide.title} fill className="object-cover object-center" sizes="46vw" priority />
                 <div className="absolute inset-y-0 left-0 w-16" style={{ background: `linear-gradient(to left, transparent, ${slide.bg_from})` }} />
               </div>
             )}
-            {/* Badge círculo */}
             {slide.badge_text && (
               <div className="absolute z-20 pointer-events-none" style={{ right: slide.image_url ? '43%' : '18%', top: '50%', transform: 'translate(50%, -50%)' }}>
-                <div className="w-20 h-20 lg:w-24 lg:h-24 rounded-full bg-white shadow-xl flex flex-col items-center justify-center text-center p-2"
+                <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-full bg-white shadow-xl flex flex-col items-center justify-center text-center p-2"
                   style={{ border: `3px solid ${adjustHex(slide.bg_from, 0.4)}` }}>
                   <Sparkles className="w-3 h-3 mb-0.5" style={{ color: slide.bg_from }} />
-                  <span className="text-[0.55rem] lg:text-[0.6rem] font-black uppercase leading-tight" style={{ color: slide.bg_from }}>{slide.badge_text}</span>
+                  <span className="text-[0.5rem] sm:text-[0.55rem] lg:text-[0.6rem] font-black uppercase leading-tight" style={{ color: slide.bg_from }}>{slide.badge_text}</span>
                 </div>
               </div>
             )}
-            {/* Texto esquerda */}
-            <div className="absolute inset-y-0 left-0 w-[56%] flex flex-col justify-center px-8 lg:px-14 z-10"><TextBlock /></div>
+            <div className="absolute inset-y-0 left-0 w-[56%] flex flex-col justify-center px-4 sm:px-8 lg:px-14 z-10"><TextBlock /></div>
           </>
         )}
         {!slide.image_url && (
@@ -292,41 +216,9 @@ function MagazineSlide({ slide }: { slide: HeroBanner }) {
 
   return (
     <div className="absolute inset-0 bg-white overflow-hidden">
-      {/* Mobile — overlay */}
-      <div className="sm:hidden absolute inset-0">
-        {slide.image_url
-          ? <Image src={slide.image_url} alt={slide.title} fill className="object-cover object-center" sizes="100vw" priority />
-          : <div className="absolute inset-0" style={{ background: colorPanel }} />}
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 55%, transparent 100%)' }} />
-        <div className="absolute bottom-0 left-0 right-0 px-5 pb-10">
-          {slide.badge_text && (
-            <div className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full mb-2 uppercase tracking-wider w-fit">
-              <Sparkles className="w-2.5 h-2.5" />{slide.badge_text}
-            </div>
-          )}
-          <h1 className="font-display text-2xl font-black text-white leading-tight mb-1 drop-shadow">{slide.title}</h1>
-          {slide.title_highlight && (
-            <p className="font-display text-xl font-bold leading-tight mb-1.5">
-              <AnimatedGradientText colorFrom="#FFD600" colorMid="#ffffff" colorTo="#9DC4FF" speed={4}>{slide.title_highlight}</AnimatedGradientText>
-            </p>
-          )}
-          {slide.subtitle && <p className="text-white/85 text-xs mb-3 line-clamp-2 drop-shadow">{slide.subtitle}</p>}
-          <Link href={slide.cta_href}>
-            <ShimmerButton className="text-xs font-bold"
-              background={`radial-gradient(ellipse 80% 50% at 50% 120%, ${btnBase}, ${btnDark})`}
-              hoverBackground={`radial-gradient(ellipse 80% 50% at 50% 120%, ${btnLight}, ${btnBase})`}
-              shimmerColor="#fff">
-              {slide.cta_label}<ArrowRight className="w-3.5 h-3.5" />
-            </ShimmerButton>
-          </Link>
-        </div>
-      </div>
-
-      {/* Desktop */}
-      <div className="hidden sm:block absolute inset-0">
+      <div className="absolute inset-0">
         {!photoLeft ? (
           <>
-            {/* Painel cor direita */}
             <div className="absolute inset-y-0 right-0 w-[60%]"
               style={{ background: colorPanel, clipPath: 'polygon(14% 0, 100% 0, 100% 100%, 0 100%)' }} />
             {slide.image_url && (
@@ -335,12 +227,10 @@ function MagazineSlide({ slide }: { slide: HeroBanner }) {
                 <Image src={slide.image_url} alt={slide.title} fill className="object-cover object-center" sizes="57vw" priority />
               </div>
             )}
-            {/* Texto esquerda */}
-            <div className="absolute inset-y-0 left-0 w-[50%] flex flex-col justify-center px-8 lg:px-14 z-20"><TextBlock /></div>
+            <div className="absolute inset-y-0 left-0 w-[50%] flex flex-col justify-center px-4 sm:px-8 lg:px-14 z-20"><TextBlock /></div>
           </>
         ) : (
           <>
-            {/* Painel cor esquerda */}
             <div className="absolute inset-y-0 left-0 w-[60%]"
               style={{ background: colorPanel, clipPath: 'polygon(0 0, 86% 0, 100% 100%, 0 100%)' }} />
             {slide.image_url && (
@@ -349,8 +239,7 @@ function MagazineSlide({ slide }: { slide: HeroBanner }) {
                 <Image src={slide.image_url} alt={slide.title} fill className="object-cover object-center" sizes="57vw" priority />
               </div>
             )}
-            {/* Texto direita */}
-            <div className="absolute inset-y-0 right-0 w-[50%] flex flex-col justify-center px-8 lg:px-14 z-20"><TextBlock /></div>
+            <div className="absolute inset-y-0 right-0 w-[50%] flex flex-col justify-center px-4 sm:px-8 lg:px-14 z-20"><TextBlock /></div>
           </>
         )}
         {!slide.image_url && (
@@ -402,40 +291,9 @@ function SpringSlide({ slide }: { slide: HeroBanner }) {
     : `linear-gradient(150deg, ${slide.bg_from}, ${slide.bg_to})`
   const photoLeft = imgLeft(slide)
 
-  const MobileOverlay = () => (
-    <div className="sm:hidden absolute inset-0">
-      {slide.image_url
-        ? <Image src={slide.image_url} alt={slide.title} fill className="object-cover object-center" sizes="100vw" priority />
-        : <div className="absolute inset-0" style={{ background: shapeGradient }} />}
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 55%, transparent 100%)' }} />
-      <div className="absolute bottom-0 left-0 right-0 px-5 pb-10">
-        {slide.badge_text && (
-          <div className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full mb-2 uppercase tracking-wider w-fit">
-            <Sparkles className="w-2.5 h-2.5" />{slide.badge_text}
-          </div>
-        )}
-        <h1 className="font-display text-2xl font-bold text-white leading-tight mb-1.5 drop-shadow">
-          {slide.title}
-          {slide.title_highlight && <><br /><AnimatedGradientText colorFrom="#FFD600" colorMid="#ffffff" colorTo="#9DC4FF" speed={3}>{slide.title_highlight}</AnimatedGradientText></>}
-        </h1>
-        {slide.subtitle && <p className="text-white/85 text-xs mb-3 line-clamp-2 drop-shadow">{slide.subtitle}</p>}
-        <Link href={slide.cta_href}>
-          <ShimmerButton className="text-xs font-bold"
-            background={`radial-gradient(ellipse 80% 50% at 50% 120%, ${btnBase}, ${btnDark})`}
-            hoverBackground={`radial-gradient(ellipse 80% 50% at 50% 120%, ${btnLight}, ${btnBase})`}
-            shimmerColor="#fff">
-            {slide.cta_label}<ArrowRight className="w-3.5 h-3.5" />
-          </ShimmerButton>
-        </Link>
-      </div>
-    </div>
-  )
-
   return (
     <div className="absolute inset-0 bg-white overflow-hidden">
-      <MobileOverlay />
-      {/* Desktop */}
-      <div className="hidden sm:block absolute inset-0">
+      <div className="absolute inset-0">
         {/* Forma diagonal colorida */}
         <div
           className={`absolute inset-y-0 ${photoLeft ? 'right-0' : 'left-0'} w-[55%]`}
@@ -471,9 +329,9 @@ function SpringSlide({ slide }: { slide: HeroBanner }) {
           </motion.div>
         )}
         {/* Texto */}
-        <div className={`absolute inset-y-0 ${photoLeft ? 'left-0' : 'right-0'} w-[48%] flex flex-col justify-center px-8 lg:px-14 z-10`}>
+        <div className={`absolute inset-y-0 ${photoLeft ? 'left-0' : 'right-0'} w-[48%] flex flex-col justify-center px-4 sm:px-8 lg:px-14 z-10`}>
           {slide.title && <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] mb-2" style={{ color: slide.bg_from }}>{slide.title}</p>}
-          <h1 className="font-display font-black leading-none mb-3" style={{ fontSize: 'clamp(2.5rem, 5.5vw, 5rem)', color: '#1a1a2e' }}>
+          <h1 className="font-display font-black leading-none mb-3" style={{ fontSize: 'clamp(1.8rem, 5.5vw, 5rem)', color: '#1a1a2e' }}>
             <AnimatedGradientText colorFrom={slide.bg_from} colorMid={slide.bg_via ?? slide.bg_to} colorTo={slide.bg_to} speed={4}>
               {slide.title_highlight || slide.title}
             </AnimatedGradientText>
@@ -503,40 +361,9 @@ function SaleSlide({ slide }: { slide: HeroBanner }) {
     : `linear-gradient(150deg, ${slide.bg_from}, ${slide.bg_to})`
   const photoLeft = imgLeft(slide)
 
-  const MobileOverlay = () => (
-    <div className="sm:hidden absolute inset-0">
-      {slide.image_url
-        ? <Image src={slide.image_url} alt={slide.title} fill className="object-cover object-center" sizes="100vw" priority />
-        : <div className="absolute inset-0" style={{ background: shapeGradient }} />}
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 55%, transparent 100%)' }} />
-      <div className="absolute bottom-0 left-0 right-0 px-5 pb-10">
-        {slide.badge_text && (
-          <div className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full mb-2 uppercase tracking-wider w-fit">
-            <Sparkles className="w-2.5 h-2.5" />{slide.badge_text}
-          </div>
-        )}
-        <h1 className="font-display text-2xl font-bold text-white leading-tight mb-1.5 drop-shadow">
-          {slide.title}
-          {slide.title_highlight && <><br /><AnimatedGradientText colorFrom="#FFD600" colorMid="#ffffff" colorTo="#9DC4FF" speed={3}>{slide.title_highlight}</AnimatedGradientText></>}
-        </h1>
-        {slide.subtitle && <p className="text-white/85 text-xs mb-3 line-clamp-2 drop-shadow">{slide.subtitle}</p>}
-        <Link href={slide.cta_href}>
-          <ShimmerButton className="text-xs font-bold"
-            background={`radial-gradient(ellipse 80% 50% at 50% 120%, ${btnBase}, ${btnDark})`}
-            hoverBackground={`radial-gradient(ellipse 80% 50% at 50% 120%, ${btnLight}, ${btnBase})`}
-            shimmerColor="#fff">
-            {slide.cta_label}<ArrowRight className="w-3.5 h-3.5" />
-          </ShimmerButton>
-        </Link>
-      </div>
-    </div>
-  )
-
   return (
     <div className="absolute inset-0 bg-white overflow-hidden">
-      <MobileOverlay />
-      {/* Desktop */}
-      <div className="hidden sm:block absolute inset-0">
+      <div className="absolute inset-0">
         {/* Fundo colorido diagonal */}
         <div
           className={`absolute inset-y-0 ${photoLeft ? 'right-0' : 'left-0'} w-[58%]`}
@@ -570,9 +397,9 @@ function SaleSlide({ slide }: { slide: HeroBanner }) {
           </motion.div>
         )}
         {/* Texto */}
-        <div className={`absolute inset-y-0 ${photoLeft ? 'right-0' : 'left-0'} w-[50%] flex flex-col justify-center px-8 lg:px-14 z-10`}>
+        <div className={`absolute inset-y-0 ${photoLeft ? 'right-0' : 'left-0'} w-[50%] flex flex-col justify-center px-4 sm:px-8 lg:px-14 z-10`}>
           {slide.title && <p className="text-white/70 text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] mb-2">{slide.title}</p>}
-          <h1 className="font-display font-black text-white leading-none mb-4" style={{ fontSize: 'clamp(3rem, 7vw, 6rem)' }}>
+          <h1 className="font-display font-black text-white leading-none mb-4" style={{ fontSize: 'clamp(2rem, 7vw, 6rem)' }}>
             <AnimatedGradientText colorFrom="#FFD600" colorMid="#ffffff" colorTo="#9DC4FF" speed={3}>
               {slide.title_highlight || slide.title}
             </AnimatedGradientText>
@@ -610,48 +437,19 @@ function StripsSlide({ slide }: { slide: HeroBanner }) {
 
   return (
     <div className="absolute inset-0 bg-white overflow-hidden">
-      {/* Mobile */}
-      <div className="sm:hidden absolute inset-0">
-        {slide.image_url
-          ? <Image src={slide.image_url} alt={slide.title} fill className="object-cover object-center" sizes="100vw" priority />
-          : <div className="absolute inset-0" style={{ background: stripGradient }} />}
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 55%, transparent 100%)' }} />
-        <div className="absolute bottom-0 left-0 right-0 px-5 pb-10">
-          {slide.badge_text && (
-            <div className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full mb-2 uppercase tracking-wider w-fit">
-              <Sparkles className="w-2.5 h-2.5" />{slide.badge_text}
-            </div>
-          )}
-          <h1 className="font-display text-2xl font-bold text-white leading-tight mb-1 drop-shadow">
-            {slide.title}
-            {slide.title_highlight && <><br /><span className="font-script text-3xl">{slide.title_highlight}</span></>}
-          </h1>
-          {slide.subtitle && <p className="text-white/85 text-xs mb-3 line-clamp-2 drop-shadow">{slide.subtitle}</p>}
-          <Link href={slide.cta_href}>
-            <ShimmerButton className="text-xs font-bold"
-              background={`radial-gradient(ellipse 80% 50% at 50% 120%, ${btnBase}, ${btnDark})`}
-              hoverBackground={`radial-gradient(ellipse 80% 50% at 50% 120%, ${btnLight}, ${btnBase})`}
-              shimmerColor="#fff">
-              {slide.cta_label}<ArrowRight className="w-3.5 h-3.5" />
-            </ShimmerButton>
-          </Link>
-        </div>
-      </div>
-
-      {/* Desktop */}
-      <div className="hidden sm:flex absolute inset-0">
+      <div className="flex absolute inset-0">
         {/* Texto esquerda */}
-        <div className="relative z-10 w-[40%] flex flex-col justify-center px-8 lg:px-14">
+        <div className="relative z-10 w-[40%] flex flex-col justify-center px-4 sm:px-8 lg:px-14">
           {/* Linha de accent no topo */}
           <div className="absolute top-0 left-0 right-0 h-1" style={{ background: accentColor }} />
           {slide.badge_text && (
             <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.25em] mb-3" style={{ color: accentColor }}>{slide.badge_text}</p>
           )}
-          <h1 className="font-display font-black text-gray-900 leading-none mb-1" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 3.2rem)' }}>
+          <h1 className="font-display font-black text-gray-900 leading-none mb-1" style={{ fontSize: 'clamp(1.2rem, 3.5vw, 3.2rem)' }}>
             {slide.title}
           </h1>
           {slide.title_highlight && (
-            <p className="font-script mb-4" style={{ fontSize: 'clamp(2rem, 4vw, 3.8rem)' }}>
+            <p className="font-script mb-4" style={{ fontSize: 'clamp(1.4rem, 4vw, 3.8rem)' }}>
               <AnimatedGradientText colorFrom={accentColor} colorMid={slide.bg_via ?? slide.bg_to} colorTo={slide.bg_to} speed={4}>
                 {slide.title_highlight}
               </AnimatedGradientText>
@@ -703,36 +501,7 @@ function DuoSlide({ slide }: { slide: HeroBanner }) {
 
   return (
     <div className="absolute inset-0 overflow-hidden" style={{ background: bgLight }}>
-      {/* Mobile */}
-      <div className="sm:hidden absolute inset-0">
-        {slide.image_url
-          ? <Image src={slide.image_url} alt={slide.title} fill className="object-cover object-center" sizes="100vw" priority />
-          : <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${slide.bg_from}, ${slide.bg_to})` }} />}
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 55%, transparent 100%)' }} />
-        <div className="absolute bottom-0 left-0 right-0 px-5 pb-10">
-          {slide.badge_text && (
-            <div className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full mb-2 uppercase tracking-wider w-fit">
-              <Sparkles className="w-2.5 h-2.5" />{slide.badge_text}
-            </div>
-          )}
-          <h1 className="font-display text-2xl font-bold text-white leading-tight mb-1 drop-shadow">
-            {slide.title}
-            {slide.title_highlight && <><br /><span className="font-script text-3xl">{slide.title_highlight}</span></>}
-          </h1>
-          {slide.subtitle && <p className="text-white/85 text-xs mb-3 line-clamp-2 drop-shadow">{slide.subtitle}</p>}
-          <Link href={slide.cta_href}>
-            <ShimmerButton className="text-xs font-bold"
-              background={`radial-gradient(ellipse 80% 50% at 50% 120%, ${btnBase}, ${btnDark})`}
-              hoverBackground={`radial-gradient(ellipse 80% 50% at 50% 120%, ${btnLight}, ${btnBase})`}
-              shimmerColor="#fff">
-              {slide.cta_label}<ArrowRight className="w-3.5 h-3.5" />
-            </ShimmerButton>
-          </Link>
-        </div>
-      </div>
-
-      {/* Desktop */}
-      <div className="hidden sm:block absolute inset-0">
+      <div className="absolute inset-0">
         {/* Duas fotos diagonais à esquerda */}
         {slide.image_url && (
           <motion.div
@@ -769,7 +538,7 @@ function DuoSlide({ slide }: { slide: HeroBanner }) {
         {/* Tira de cor na borda inferior */}
         <div className="absolute bottom-0 left-0 right-0 h-1.5" style={{ background: accentColor }} />
         {/* Texto direita */}
-        <div className="absolute inset-y-0 right-0 w-[48%] flex flex-col justify-center px-8 lg:px-14 z-10">
+        <div className="absolute inset-y-0 right-0 w-[48%] flex flex-col justify-center px-4 sm:px-8 lg:px-14 z-10">
           {slide.title && <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.25em] mb-3" style={{ color: accentColor }}>{slide.title}</p>}
           <h1 className="font-display font-black leading-none mb-1" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 3.2rem)', color: '#1a1a2e' }}>
             {slide.title_highlight ? (
@@ -832,7 +601,7 @@ export function HeroBannerClient({ slides }: Props) {
   const isLightBg = ['diagonal', 'magazine', 'fashion', 'spring', 'sale', 'strips', 'duo'].includes(slide.template)
 
   return (
-    <section className="flex flex-col gap-4 mb-6" aria-label="Destaques da loja">
+    <section className="flex flex-col gap-4 mb-2" aria-label="Destaques da loja">
       <div
         style={{ height: `clamp(240px, 55vw, ${containerHeight}px)` }}
         className="relative overflow-hidden rounded-2xl cursor-pointer min-h-[420px] sm:min-h-0"
@@ -865,37 +634,7 @@ export function HeroBannerClient({ slides }: Props) {
             ) : (
               /* Gradiente (padrão) */
               <div className="absolute inset-0" style={{ background: gradientStyle }}>
-              {/* Mobile gradient — overlay */}
-              <div className="sm:hidden absolute inset-0">
-                {slide.image_url
-                  ? <Image src={slide.image_url} alt={slide.title} fill className="object-cover object-top" sizes="100vw" priority />
-                  : null}
-                <div className="absolute inset-0" style={{ background: slide.image_url ? 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 55%, transparent 100%)' : 'transparent' }} />
-                <div className="absolute bottom-0 left-0 right-0 px-5 pb-10">
-                  {slide.badge_text && (
-                    <div className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white text-[0.65rem] font-bold px-2.5 py-1 rounded-full mb-2 uppercase tracking-wider w-fit">
-                      <Sparkles className="w-2.5 h-2.5" />{slide.badge_text}
-                    </div>
-                  )}
-                  <h1 className="font-display text-2xl font-bold text-white leading-tight mb-1.5 drop-shadow">
-                    {slide.title}
-                    {slide.title_highlight && (
-                      <><br /><AnimatedGradientText colorFrom="#FFD600" colorMid="#ffffff" colorTo="#9DC4FF" speed={3}>{slide.title_highlight}</AnimatedGradientText></>
-                    )}
-                  </h1>
-                  {slide.subtitle && <p className="text-white/85 text-xs mb-3 line-clamp-2 drop-shadow">{slide.subtitle}</p>}
-                  <Link href={slide.cta_href}>
-                    <ShimmerButton className="text-xs font-bold"
-                      background={`radial-gradient(ellipse 80% 50% at 50% 120%, ${btnBase}, ${btnDark})`}
-                      hoverBackground={`radial-gradient(ellipse 80% 50% at 50% 120%, ${btnLight}, ${btnBase})`}
-                      shimmerColor="#fff">
-                      {slide.cta_label}<ArrowRight className="w-3.5 h-3.5" />
-                    </ShimmerButton>
-                  </Link>
-                </div>
-              </div>
-              {/* Desktop gradient */}
-              <div className="hidden sm:flex absolute inset-0 items-center p-6 sm:p-10">
+              <div className="flex absolute inset-0 items-center p-5 sm:p-10">
                 <div className="absolute inset-0 pointer-events-none">
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_40%,rgba(255,255,255,0.07)_0%,transparent_55%)]" />
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_85%,rgba(245,166,35,0.08)_0%,transparent_40%)]" />

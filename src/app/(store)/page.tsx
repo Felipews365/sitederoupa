@@ -12,6 +12,7 @@ import { BorderBeam } from '@/components/magicui/border-beam'
 
 // Countdown Timer (server-safe placeholder — timer runs client-side)
 import { FlashSaleTimer } from '@/components/home/FlashSaleTimer'
+import { CategorySelect } from '@/components/home/CategorySelect'
 
 export default async function HomePage() {
   let dbProducts: Awaited<ReturnType<typeof getFeaturedProducts>> = []
@@ -81,37 +82,19 @@ export default async function HomePage() {
 
   return (
     <div className="bg-surface min-h-screen">
-      <div className="max-w-[1260px] mx-auto px-4 sm:px-6 pt-5 pb-0">
+      <div className="max-w-[1260px] mx-auto px-4 sm:px-6 pt-2 pb-0">
         {/* HERO */}
         <HeroBanner />
 
-        {/* TRUST STRIP */}
-        <BlurFade delay={0.1} inView>
-          <div className="bg-white rounded-xl border border-border grid grid-cols-2 md:grid-cols-4 overflow-hidden mb-8">
-            {trustItems.map(({ icon: Icon, label, desc }, i) => (
-              <div
-                key={label}
-                className={`flex items-center gap-3 p-5 ${i < 3 ? 'border-r border-border last:border-r-0' : ''} ${i >= 2 ? 'border-t md:border-t-0 border-border' : ''}`}
-              >
-                <Icon className="w-6 h-6 text-primary flex-shrink-0" />
-                <div>
-                  <p className="text-sm font-semibold text-foreground leading-snug">{label}</p>
-                  <p className="text-xs text-muted-foreground">{desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </BlurFade>
-
         {/* MARQUEE CATEGORIAS */}
         <BlurFade delay={0.15} inView>
-          <div className="mb-8 overflow-hidden rounded-xl bg-white border border-border py-1">
+          <div className="mb-0 overflow-hidden -mx-4 sm:-mx-6 py-2">
             <Marquee pauseOnHover speed={30} repeat={2}>
               {marqueeItems.map((item) => (
                 <Link
                   key={item.href + item.label}
                   href={item.href}
-                  className="inline-flex items-center gap-1.5 bg-primary-light text-primary text-xs font-semibold px-4 py-2 rounded-full border border-primary-hl hover:bg-primary hover:text-white transition-colors mx-1.5 whitespace-nowrap"
+                  className="inline-flex items-center gap-1.5 text-foreground text-sm font-medium px-4 py-2 rounded-full hover:text-primary transition-colors mx-2 whitespace-nowrap"
                 >
                   {item.label}
                 </Link>
@@ -124,10 +107,11 @@ export default async function HomePage() {
         {categories.length > 0 && (
           <BlurFade delay={0.2} inView>
             <section className="mb-8">
-              <h2 className="font-display text-xl font-semibold text-foreground mb-4 flex items-center gap-3 after:flex-1 after:h-px after:bg-border after:content-['']">
+              <h2 className="hidden sm:flex font-display text-xl font-semibold text-foreground mb-0 items-center gap-3 after:flex-1 after:h-px after:bg-border after:content-['']">
                 Categorias
               </h2>
-              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-8 gap-3">
+              <CategorySelect categories={categories} />
+              <div className="hidden sm:grid sm:grid-cols-4 md:grid-cols-8 gap-3">
                 <Link
                   href="/produtos"
                   className="flex flex-col items-center p-4 bg-white rounded-xl border border-border hover:border-primary hover:bg-primary-light hover:shadow-card-hover transition-all duration-200 group"
@@ -235,6 +219,24 @@ export default async function HomePage() {
             </div>
           )}
         </section>
+
+        {/* TRUST STRIP */}
+        <BlurFade delay={0.1} inView>
+          <div className="bg-white rounded-xl border border-border grid grid-cols-2 md:grid-cols-4 overflow-hidden mb-8">
+            {trustItems.map(({ icon: Icon, label, desc }, i) => (
+              <div
+                key={label}
+                className={`flex items-center gap-3 p-5 ${i < 3 ? 'border-r border-border last:border-r-0' : ''} ${i >= 2 ? 'border-t md:border-t-0 border-border' : ''}`}
+              >
+                <Icon className="w-6 h-6 text-primary flex-shrink-0" />
+                <div>
+                  <p className="text-sm font-semibold text-foreground leading-snug">{label}</p>
+                  <p className="text-xs text-muted-foreground">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </BlurFade>
 
         {/* ABOUT / STATS */}
         <BlurFade delay={0.1} inView>
