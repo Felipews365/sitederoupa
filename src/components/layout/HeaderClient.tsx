@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import {
   ShoppingBag, Search, User, Menu, X, LogOut,
-  Package, MapPin, Heart, Sparkles,
+  Package, MapPin, Heart, Sparkles, Home,
 } from 'lucide-react'
 import { useCartStore } from '@/store/cartStore'
 import { createClient } from '@/lib/supabase/client'
@@ -68,6 +68,7 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
   const extraCategories = categories.slice(MAX_NAV_CATEGORIES)
 
   return (
+    <>
     <header className="sticky top-0 z-50 shadow-lg">
       {/* Promo Bar */}
       <div className="bg-primary-dark text-white text-center py-2 px-4 text-xs font-medium tracking-wide">
@@ -82,25 +83,90 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
         </span>
       </div>
 
-      {/* Header Principal */}
-      <div className="bg-primary">
-        <div className="max-w-[1260px] mx-auto px-4 sm:px-6 py-3 grid grid-cols-[auto_1fr_auto] items-center gap-4 sm:gap-5">
+      {/* Header Principal — Mobile (2 linhas) */}
+      <div className="sm:hidden bg-primary">
+        {/* Linha 1: Logo */}
+        <div className="px-4 pt-2.5 pb-2 flex items-center relative">
+          <div className="w-8 h-8 bg-white/15 rounded-xl flex items-center justify-center flex-shrink-0">
+            <Sparkles className="w-4 h-4" style={{ color: '#FFD600' }} />
+          </div>
+          <Link href="/" className="absolute left-0 right-0 flex justify-center pointer-events-none">
+            <span className="font-display text-base font-bold text-white pointer-events-auto">
+              Black<span style={{ color: '#FFD600' }}>Import</span>
+            </span>
+          </Link>
+          {/* dropdown de conta oculto mas mantido para compatibilidade com estado */}
+          {userMenuOpen && (
+                <div className="absolute right-4 top-16 w-52 bg-white rounded-xl shadow-lg border border-border z-50 py-2 text-foreground">
+                  {user ? (
+                    <>
+                      <div className="px-4 py-2 border-b border-border">
+                        <p className="text-xs text-muted-foreground">Logado como</p>
+                        <p className="text-sm font-medium truncate">{user.email}</p>
+                      </div>
+                      <Link href="/minha-conta" className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-muted transition-colors" onClick={() => setUserMenuOpen(false)}>
+                        <User className="w-4 h-4" /> Minha Conta
+                      </Link>
+                      <Link href="/pedidos" className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-muted transition-colors" onClick={() => setUserMenuOpen(false)}>
+                        <Package className="w-4 h-4" /> Meus Pedidos
+                      </Link>
+                      <Link href="/enderecos" className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-muted transition-colors" onClick={() => setUserMenuOpen(false)}>
+                        <MapPin className="w-4 h-4" /> Endereços
+                      </Link>
+                      <hr className="my-1 border-border" />
+                      <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 text-sm text-destructive hover:bg-muted transition-colors w-full">
+                        <LogOut className="w-4 h-4" /> Sair
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link href="/login" className="block px-4 py-2 text-sm font-medium hover:bg-muted transition-colors" onClick={() => setUserMenuOpen(false)}>
+                        Entrar
+                      </Link>
+                      <Link href="/cadastro" className="block px-4 py-2 text-sm hover:bg-muted transition-colors" onClick={() => setUserMenuOpen(false)}>
+                        Criar conta
+                      </Link>
+                    </>
+                  )}
+                </div>
+              )}
+        </div>
+        {/* Linha 2: Barra de busca full-width */}
+        <div className="px-4 pb-3">
+          <form onSubmit={handleSearch} className="flex items-center bg-white rounded-full overflow-hidden border-2 border-transparent focus-within:border-yellow-400 transition-colors">
+            <Search className="w-4 h-4 text-muted-foreground ml-4 flex-shrink-0" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Buscar roupas, modelos, tamanhos..."
+              className="flex-1 px-3 py-3 border-none outline-none bg-transparent text-sm text-foreground placeholder-muted-foreground min-w-0"
+            />
+            <button
+              type="submit"
+              className="px-4 py-3 bg-accent text-white font-semibold text-sm transition-colors whitespace-nowrap rounded-r-full"
+            >
+              Buscar
+            </button>
+          </form>
+        </div>
+      </div>
+
+      {/* Header Principal — Desktop (3 colunas) */}
+      <div className="hidden sm:block bg-primary">
+        <div className="max-w-[1260px] mx-auto px-6 py-3 grid grid-cols-[auto_1fr_auto] items-center gap-5">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 flex-shrink-0">
             <div className="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-gold-DEFAULT" style={{ color: '#FFD600' }} />
             </div>
-            <div className="hidden sm:block">
+            <div>
               <span className="font-display text-xl font-bold text-white leading-none">
                 Black<span style={{ color: '#FFD600' }}>Import</span>
               </span>
               <span className="block text-[0.6rem] font-medium text-white/60 uppercase tracking-widest mt-0.5">
                 Moda &amp; Estilo
               </span>
-            </div>
-            <div className="sm:hidden flex flex-col items-start leading-none">
-              <span className="font-display text-sm font-bold text-white leading-none">Black</span>
-              <span className="font-display text-sm font-bold leading-none" style={{ color: '#FFD600' }}>Import</span>
             </div>
           </Link>
 
@@ -111,24 +177,24 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Buscar roupas, modelos, tamanhos..."
-              className="flex-1 px-4 sm:px-5 py-2.5 border-none outline-none bg-transparent text-sm text-foreground placeholder-muted-foreground min-w-0"
+              className="flex-1 px-5 py-2.5 border-none outline-none bg-transparent text-sm text-foreground placeholder-muted-foreground min-w-0"
             />
             <button
               type="submit"
-              className="flex items-center gap-2 px-4 sm:px-5 py-2.5 bg-accent hover:bg-accent-hover text-white font-semibold text-sm transition-colors whitespace-nowrap"
+              className="flex items-center gap-2 px-5 py-2.5 bg-accent hover:bg-accent-hover text-white font-semibold text-sm transition-colors whitespace-nowrap"
             >
               <Search className="w-4 h-4" />
-              <span className="hidden sm:inline">Buscar</span>
+              <span>Buscar</span>
             </button>
           </form>
 
           {/* Ações */}
-          <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+          <div className="flex items-center gap-2 flex-shrink-0">
             {/* Usuário */}
-            <div className="relative hidden sm:block">
+            <div className="relative">
               <button
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="flex flex-col items-center gap-0.5 text-white/90 hover:text-white px-2 sm:px-3 py-2 rounded-lg hover:bg-white/12 transition-colors min-w-[44px]"
+                className="flex flex-col items-center gap-0.5 text-white/90 hover:text-white px-3 py-2 rounded-lg hover:bg-white/12 transition-colors min-w-[44px]"
               >
                 <User className="w-5 h-5" />
                 <span className="text-[0.65rem] whitespace-nowrap">{user ? 'Conta' : 'Entrar'}</span>
@@ -170,7 +236,7 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
             </div>
 
             {/* Favoritos */}
-            <button className="hidden sm:flex flex-col items-center gap-0.5 text-white/90 hover:text-white px-2 sm:px-3 py-2 rounded-lg hover:bg-white/12 transition-colors min-w-[44px]">
+            <button className="flex flex-col items-center gap-0.5 text-white/90 hover:text-white px-3 py-2 rounded-lg hover:bg-white/12 transition-colors min-w-[44px]">
               <Heart className="w-5 h-5" />
               <span className="text-[0.65rem]">Favoritos</span>
             </button>
@@ -178,7 +244,7 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
             {/* Sacola */}
             <button
               onClick={toggleCart}
-              className="flex flex-col items-center gap-0.5 text-white/90 hover:text-white px-2 sm:px-3 py-2 rounded-lg hover:bg-white/12 transition-colors min-w-[44px] relative"
+              className="flex flex-col items-center gap-0.5 text-white/90 hover:text-white px-3 py-2 rounded-lg hover:bg-white/12 transition-colors min-w-[44px] relative"
               aria-label="Carrinho de compras"
             >
               <div className="relative">
@@ -190,15 +256,6 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
                 )}
               </div>
               <span className="text-[0.65rem]">Sacola</span>
-            </button>
-
-            {/* Mobile Menu Toggle */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="sm:hidden p-2 rounded-lg hover:bg-white/10 transition-colors text-white"
-              aria-label="Menu"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -244,21 +301,7 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-primary-dark border-t border-white/10 px-4 py-4">
-          <form onSubmit={handleSearch} className="mb-4">
-            <div className="flex bg-white rounded-full overflow-hidden">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Buscar roupas..."
-                className="flex-1 px-4 py-2.5 text-sm text-foreground outline-none"
-              />
-              <button type="submit" className="px-4 bg-accent text-white rounded-full text-sm font-semibold">
-                Buscar
-              </button>
-            </div>
-          </form>
+        <div className="sm:hidden bg-primary-dark border-t border-white/10 px-4 py-4">
           <div className="flex flex-col gap-1">
             <Link
               href="/produtos"
@@ -301,5 +344,47 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
         </div>
       )}
     </header>
+
+    {/* Mobile Bottom Nav */}
+    <nav className="sm:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50 flex items-center justify-around h-14">
+      <Link
+        href="/"
+        className="flex flex-col items-center gap-0.5 text-gray-600 hover:text-primary transition-colors px-3 py-1"
+      >
+        <Home className="w-5 h-5" />
+        <span className="text-[0.65rem] font-medium">Início</span>
+      </Link>
+      <Link
+        href={user ? '/minha-conta' : '/login'}
+        className="flex flex-col items-center gap-0.5 text-gray-600 hover:text-primary transition-colors px-3 py-1"
+      >
+        <User className="w-5 h-5" />
+        <span className="text-[0.65rem] font-medium">Conta</span>
+      </Link>
+      <button
+        onClick={toggleCart}
+        className="flex flex-col items-center gap-0.5 text-gray-600 hover:text-primary transition-colors px-3 py-1 relative"
+        aria-label="Carrinho"
+      >
+        <div className="relative">
+          <ShoppingBag className="w-5 h-5" />
+          {itemCount > 0 && (
+            <span className="absolute -top-1.5 -right-2 bg-accent text-white text-[0.6rem] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+              {itemCount > 99 ? '99+' : itemCount}
+            </span>
+          )}
+        </div>
+        <span className="text-[0.65rem] font-medium">Carrinho</span>
+      </button>
+      <button
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        className="flex flex-col items-center gap-0.5 text-gray-600 hover:text-primary transition-colors px-3 py-1"
+        aria-label="Menu"
+      >
+        {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        <span className="text-[0.65rem] font-medium">Menu</span>
+      </button>
+    </nav>
+    </>
   )
 }

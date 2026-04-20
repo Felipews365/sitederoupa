@@ -11,7 +11,7 @@ export default function StoreLayout({
     <>
       <Header />
       <CartSheet />
-      <main className="min-h-screen bg-surface">
+      <main className="min-h-screen bg-surface pb-14 sm:pb-0">
         {children}
       </main>
       <Footer />
