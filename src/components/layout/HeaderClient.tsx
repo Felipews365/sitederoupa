@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import {
@@ -35,6 +35,8 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [user, setUser] = useState<SupabaseUser | null>(null)
+  const [headerVisible, setHeaderVisible] = useState(true)
+  const lastScrollY = useRef(0)
   const router = useRouter()
   const { totalItems, toggleCart } = useCartStore()
   const itemCount = totalItems()
@@ -47,6 +49,22 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
     })
     return () => subscription.unsubscribe()
   }, [])
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerWidth >= 640) return
+      if (mobileMenuOpen) return
+      const current = window.scrollY
+      if (current > lastScrollY.current && current > 60) {
+        setHeaderVisible(false)
+      } else {
+        setHeaderVisible(true)
+      }
+      lastScrollY.current = current
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [mobileMenuOpen])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -69,7 +87,7 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
 
   return (
     <>
-    <header className="sticky top-0 z-50 shadow-lg">
+    <header className={`sticky top-0 z-50 shadow-lg transition-transform duration-300 ${!headerVisible ? '-translate-y-full sm:translate-y-0' : 'translate-y-0'}`}>
       {/* Promo Bar */}
       <div className="bg-primary-dark text-white text-center py-2 px-4 text-xs font-medium tracking-wide">
         <span className="hidden sm:inline">

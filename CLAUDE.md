@@ -66,7 +66,7 @@ src/
 │   │   └── FlashSaleTimer.tsx   # Countdown timer (client)
 │   ├── layout/
 │   │   ├── Header.tsx           # Server component wrapper — busca categorias ativas do banco e passa para HeaderClient
-│   │   ├── HeaderClient.tsx     # Client component — promo bar + header azul + nav categorias dinâmico; mostra até 6 categorias no nav desktop + CategoryDropdown para o restante; mobile: lista todas; logo mobile: "Black"/"Import" empilhados
+│   │   ├── HeaderClient.tsx     # Client component — promo bar + header azul + nav categorias dinâmico; mostra até 6 categorias no nav desktop + CategoryDropdown para o restante; mobile: lista todas; **mobile header 2 linhas**: linha 1 = ícone Sparkles (esquerda) + nome "BlackImport" centralizado (position absolute), linha 2 = busca full-width com padding maior; ícone de Conta removido do header mobile (duplicaria o bottom nav); **bottom nav mobile fixo** (sm:hidden, fixed bottom-0, z-50, h-14, bg-white): 4 itens = Início (Home) / Conta (User → /login ou /minha-conta) / Carrinho (ShoppingBag + badge) / Menu (abre/fecha mobile menu drawer)
 │   │   ├── CategoryDropdown.tsx # Client component — dropdown animado (Framer Motion) "Ver todas ▾" para categorias além das 6 no nav desktop; grid 2 colunas
 │   │   └── Footer.tsx           # Footer azul escuro + logos pagamento
 │   ├── products/
@@ -162,7 +162,8 @@ RLS habilitado em todas as tabelas.
 - **Rotas de categoria**: `/categorias/[slug]` — slugs: `camisetas`, `calcas`, `vestidos`, `moletons`, `shorts`, `jaquetas`, `acessorios`
 - **Grid de categorias na homepage**: mostra card "🛍️ Todos" (→ `/produtos`) + até 7 categorias com `show_in_grid = true` ordenadas por `sort_order`. Total máx = 8 cards. Gerencie em `/admin/categorias` — toggle por linha na tabela, contador X/8 no cabeçalho
 - **Marquee de categorias na homepage**: usa todas as categorias ativas (ignora `show_in_grid`), cada item é um `Link` clicável — "Todos" no início, "Promoções" no fim
-- **Nav do Header**: dinâmico, busca categorias ativas do banco. Desktop: "✨ Novidades" + primeiras 6 categorias + "Ver todas ▾" (se >6) + "🔥 Promoções". Mobile: lista todas sem limite
+- **Nav do Header**: dinâmico, busca categorias ativas do banco. Desktop: "✨ Novidades" + primeiras 6 categorias + "Ver todas ▾" (se >6) + "🔥 Promoções". Mobile: lista todas sem limite (acessível via botão "Menu" no bottom nav)
+- **Bottom nav mobile**: fixo na base da tela (`sm:hidden`). O `<main>` em `src/app/(store)/layout.tsx` usa `pb-14 sm:pb-0` para o conteúdo não ficar coberto
 - **Rota de promoções**: `/produtos?promocao=true` — filtra produtos com `compare_price IS NOT NULL` via parâmetro `onSale` em `getProducts`. O nav link "🔥 Promoções" no Header aponta para essa URL. Não usar `ordenar=price_asc` para esse fim
 - **Admin route group**: páginas protegidas do admin ficam em `src/app/admin/(protected)/` — o `layout.tsx` desse grupo verifica `role=admin`. A página de login em `src/app/admin/login/` fica fora do grupo para evitar loop de redirect
 - **Magic UI**: componentes ficam em `src/components/magicui/` — são copy-paste, sem instalar pacote `magicui`. Depende de `framer-motion`. `ShimmerButton` aceita prop `hoverBackground` para cor de hover diferente do estado normal
