@@ -29,8 +29,8 @@ export const PAYMENT_METHODS = [
   { value: 'boleto', label: 'Boleto Bancário', description: 'Em breve' },
 ]
 
-// Frete grátis acima de R$ 299
-export const FREE_SHIPPING_THRESHOLD = 299
+// Frete grátis acima de R$ 79
+export const FREE_SHIPPING_THRESHOLD = 79
 
 // Valor do frete padrão
 export const SHIPPING_COST = 19.9

@@ -26,7 +26,7 @@ export default function RootLayout({
       <body>
         {children}
         <Toaster
-          position="top-right"
+          position="top-left"
           richColors
           toastOptions={{
             style: { fontFamily: 'Inter, sans-serif' },
