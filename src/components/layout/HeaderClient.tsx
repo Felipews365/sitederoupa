@@ -87,7 +87,7 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
 
   return (
     <>
-    <header className={`sticky top-0 z-50 shadow-lg transition-transform duration-300 ${!headerVisible ? '-translate-y-full sm:translate-y-0' : 'translate-y-0'}`}>
+    <header className="relative sm:sticky sm:top-0 sm:z-50 z-50 shadow-lg">
       {/* Promo Bar */}
       <div className="bg-primary-dark text-white text-center py-2 px-4 text-xs font-medium tracking-wide">
         <span className="hidden sm:inline">

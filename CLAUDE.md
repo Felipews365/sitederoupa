@@ -45,8 +45,10 @@ Definida em `tailwind.config.ts`:
 ```
 src/
 ├── app/
-│   ├── (store)/          # Rotas públicas da loja
+│   ├── (store)/          # Rotas públicas da loja (com Header + Footer)
 │   │   └── page.tsx      # Homepage (server component)
+│   ├── (noheader)/       # Rotas sem Header nem Footer (layout mínimo: só CartSheet)
+│   │   └── produtos/[slug]/page.tsx  # Página de detalhe do produto
 │   ├── (customer)/       # Rotas autenticadas (conta, pedidos)
 │   ├── (auth)/           # Login, cadastro, esqueci senha
 │   └── admin/
@@ -71,7 +73,7 @@ src/
 │   │   └── Footer.tsx           # Footer azul escuro + logos pagamento
 │   ├── products/
 │   │   ├── ProductCard.tsx         # Card com hover effects + size row
-│   │   ├── ProductDetailClient.tsx # Página de detalhe (client) — galeria, variantes, carrinho; swipe horizontal na imagem principal (mín 40px) via onTouchStart/onTouchEnd + useRef
+│   │   ├── ProductDetailClient.tsx # Página de detalhe (client) — galeria, variantes, carrinho; swipe horizontal na imagem principal (mín 40px) via onTouchStart/onTouchEnd + useRef; clicar na imagem abre lightbox tela cheia (fixed inset-0, bg-black, object-contain) com swipe, setas, bolinhas e tecla Esc
 │   │   ├── FilterSidebar.tsx       # Sidebar de filtros (client) — categoria, gênero, preço, tamanho, cor
 │   │   ├── MobileFilterSheet.tsx   # Sheet de filtros no mobile (client)
 │   │   └── SortSelect.tsx          # Select de ordenação (client) — necessário por usar onChange; lê/escreve searchParams via useRouter
