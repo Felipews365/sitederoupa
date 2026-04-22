@@ -293,7 +293,7 @@ export default async function HomePage() {
       </div>
 
       {/* CTA Banner */}
-      <section className="bg-gradient-to-r from-primary-dark via-primary to-primary-dark text-white py-16 px-4">
+      <section className="bg-gradient-to-r from-[#06141B] via-[#253745] to-[#06141B] text-white py-16 px-4">
         <div className="max-w-3xl mx-auto text-center">
           <BlurFade inView delay={0.1}>
             <h2 className="font-display text-3xl font-bold mb-3">

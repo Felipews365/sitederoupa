@@ -26,19 +26,20 @@ npm run lint     # Lint
 | Animações | Framer Motion (via Magic UI) |
 | Toasts | Sonner |
 
-## Paleta de cores (tema azul Magalu)
+## Paleta de cores (tema fashion navy + gold)
 
 Definida em `tailwind.config.ts`:
 
 | Token | Cor | Uso |
 |---|---|---|
-| `primary` | `#0064D2` | Header, botões principais, nav |
-| `primary-dark` | `#003F8A` | Promo bar, footer, hover states |
-| `primary-light` | `#E8F2FF` | Backgrounds suaves, badges |
+| `primary` | `#0062B8` | Header, botões principais, nav |
+| `primary-dark` | `#002962` | Promo bar, footer, hover states |
+| `primary-light` | `#F0F6FC` | Backgrounds suaves, badges |
 | `accent` | `#FF6B00` | CTAs, botão de busca, ofertas |
-| `gold` | `#FFD600` | Estrelas, badges de destaque, gradientes |
+| `gold` | `#FFDA6C` | Estrelas, badges de destaque, gradientes |
 | `sale` | `#E63946` | Badges de desconto, promoções |
-| `surface` | `#F2F6FC` | Background geral da página |
+| `surface` | `#F7F8FA` | Background geral da página |
+| `border` | `#DCE3EC` | Bordas de cards e inputs |
 
 ## Estrutura de componentes
 
@@ -68,7 +69,7 @@ src/
 │   │   └── FlashSaleTimer.tsx   # Countdown timer (client)
 │   ├── layout/
 │   │   ├── Header.tsx           # Server component wrapper — busca categorias ativas do banco e passa para HeaderClient
-│   │   ├── HeaderClient.tsx     # Client component — promo bar + header azul + nav categorias dinâmico; mostra até 6 categorias no nav desktop + CategoryDropdown para o restante; mobile: lista todas; **mobile header 2 linhas**: linha 1 = ícone Sparkles (esquerda) + nome "BlackImport" centralizado (position absolute), linha 2 = busca full-width com padding maior; ícone de Conta removido do header mobile (duplicaria o bottom nav); **auto-hide no mobile**: ao rolar para baixo além de 60px o header desliza para fora da tela (`-translate-y-full`, transition 300ms); ao rolar para cima ou com menu aberto o header reaparece — desktop nunca some (`sm:translate-y-0`); **bottom nav mobile fixo** (sm:hidden, fixed bottom-0, z-50, h-14, bg-white): 4 itens = Início (Home) / Conta (User → /login ou /minha-conta) / Carrinho (ShoppingBag + badge) / Menu (abre/fecha mobile menu drawer)
+│   │   ├── HeaderClient.tsx     # Client component — promo bar + header azul + nav categorias dinâmico; mostra até 6 categorias no nav desktop + CategoryDropdown para o restante; mobile: lista todas; **mobile header 2 linhas**: linha 1 = ícone Sparkles (esquerda) + nome "BlackImport" centralizado (position absolute), linha 2 = busca full-width com padding maior; ícone de Conta removido do header mobile (duplicaria o bottom nav); **comportamento de scroll no mobile**: header usa `relative` no mobile — rola junto com a página sem auto-hide. No desktop usa `sm:sticky sm:top-0` (fixo no topo); **bottom nav mobile fixo** (sm:hidden, fixed bottom-0, z-50, h-14, bg-white): 4 itens = Início (Home) / Conta (User → /login ou /minha-conta) / Carrinho (ShoppingBag + badge) / Menu (abre/fecha mobile menu drawer)
 │   │   ├── CategoryDropdown.tsx # Client component — dropdown animado (Framer Motion) "Ver todas ▾" para categorias além das 6 no nav desktop; grid 2 colunas
 │   │   └── Footer.tsx           # Footer azul escuro + logos pagamento
 │   ├── products/

@@ -29,31 +29,31 @@ const paymentMethods = ['PIX', 'VISA', 'MASTER', 'ELO', 'BOLETO']
 
 export function Footer() {
   return (
-    <footer className="bg-primary-dark text-white/80 pt-12 pb-8 px-4 sm:px-6">
+    <footer className="bg-[#06141B] text-[#9BA8AB] pt-12 pb-8 px-4 sm:px-6">
       <div className="max-w-[1260px] mx-auto">
         {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-10">
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-white/15 rounded-lg flex items-center justify-center">
-                <Sparkles className="w-4 h-4" style={{ color: '#FFD600' }} />
+              <div className="w-8 h-8 bg-[#253745] rounded-lg flex items-center justify-center">
+                <Sparkles className="w-4 h-4" style={{ color: '#FFDA6C' }} />
               </div>
-              <span className="font-display text-lg font-bold text-white">
-                Black<span style={{ color: '#FFD600' }}>Import</span>
+              <span className="font-display text-lg font-bold text-[#CCD0CF]">
+                Black<span style={{ color: '#FFDA6C' }}>Import</span>
               </span>
             </Link>
-            <p className="text-sm text-white/60 max-w-[30ch] leading-relaxed">
+            <p className="text-sm text-[#9BA8AB] max-w-[30ch] leading-relaxed">
               Sua loja de moda online. Roupas com qualidade garantida, entrega rápida e troca grátis.
             </p>
             <div className="flex gap-3 mt-5">
-              <a href="#" aria-label="Instagram" className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors text-white/70 hover:text-white">
+              <a href="#" aria-label="Instagram" className="w-8 h-8 bg-[#253745] hover:bg-[#4A5C6A] rounded-lg flex items-center justify-center transition-colors text-[#9BA8AB] hover:text-[#CCD0CF]">
                 <Instagram className="w-4 h-4" />
               </a>
-              <a href="#" aria-label="Facebook" className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors text-white/70 hover:text-white">
+              <a href="#" aria-label="Facebook" className="w-8 h-8 bg-[#253745] hover:bg-[#4A5C6A] rounded-lg flex items-center justify-center transition-colors text-[#9BA8AB] hover:text-[#CCD0CF]">
                 <Facebook className="w-4 h-4" />
               </a>
-              <a href="#" aria-label="WhatsApp" className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors text-white/70 hover:text-white">
+              <a href="#" aria-label="WhatsApp" className="w-8 h-8 bg-[#253745] hover:bg-[#4A5C6A] rounded-lg flex items-center justify-center transition-colors text-[#9BA8AB] hover:text-[#CCD0CF]">
                 <MessageCircle className="w-4 h-4" />
               </a>
             </div>
@@ -61,11 +61,11 @@ export function Footer() {
 
           {/* Atendimento */}
           <div>
-            <h4 className="font-display text-sm font-bold text-white mb-4">Atendimento</h4>
+            <h4 className="font-display text-sm font-bold text-[#CCD0CF] mb-4">Atendimento</h4>
             <ul className="flex flex-col gap-2">
               {footerLinks.atendimento.map((item) => (
                 <li key={item.href}>
-                  <a href={item.href} className="text-xs text-white/60 hover:text-gold-DEFAULT transition-colors" style={{ '--hover-color': '#FFD600' } as React.CSSProperties}>
+                  <a href={item.href} className="text-xs text-[#9BA8AB] hover:text-[#CCD0CF] transition-colors">
                     {item.label}
                   </a>
                 </li>
@@ -75,11 +75,11 @@ export function Footer() {
 
           {/* Minha Conta */}
           <div>
-            <h4 className="font-display text-sm font-bold text-white mb-4">Minha Conta</h4>
+            <h4 className="font-display text-sm font-bold text-[#CCD0CF] mb-4">Minha Conta</h4>
             <ul className="flex flex-col gap-2">
               {footerLinks.conta.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="text-xs text-white/60 hover:text-white transition-colors">
+                  <Link href={item.href} className="text-xs text-[#9BA8AB] hover:text-[#CCD0CF] transition-colors">
                     {item.label}
                   </Link>
                 </li>
@@ -89,11 +89,11 @@ export function Footer() {
 
           {/* Informações */}
           <div>
-            <h4 className="font-display text-sm font-bold text-white mb-4">Informações</h4>
+            <h4 className="font-display text-sm font-bold text-[#CCD0CF] mb-4">Informações</h4>
             <ul className="flex flex-col gap-2">
               {footerLinks.info.map((item) => (
                 <li key={item.href}>
-                  <a href={item.href} className="text-xs text-white/60 hover:text-white transition-colors">
+                  <a href={item.href} className="text-xs text-[#9BA8AB] hover:text-[#CCD0CF] transition-colors">
                     {item.label}
                   </a>
                 </li>
@@ -103,11 +103,11 @@ export function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 flex-wrap">
-          <p className="text-xs text-white/40">
+        <div className="border-t border-[#253745] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 flex-wrap">
+          <p className="text-xs text-[#4A5C6A]">
             © 2026 MercadoVerde Moda. Todos os direitos reservados.
             {' · '}
-            <Link href="/admin" className="text-white/40 hover:text-white/70 border-b border-dashed border-white/25 hover:border-white/50 pb-px transition-colors">
+            <Link href="/admin" className="text-[#4A5C6A] hover:text-[#9BA8AB] border-b border-dashed border-[#4A5C6A] hover:border-[#9BA8AB] pb-px transition-colors">
               Área Admin
             </Link>
           </p>
@@ -115,7 +115,7 @@ export function Footer() {
             {paymentMethods.map((method) => (
               <span
                 key={method}
-                className="bg-white/10 text-white/70 text-[0.6rem] font-bold px-2 py-1 rounded border border-white/15 tracking-wider"
+                className="bg-[#253745] text-[#9BA8AB] text-[0.6rem] font-bold px-2 py-1 rounded border border-[#4A5C6A] tracking-wider"
               >
                 {method}
               </span>

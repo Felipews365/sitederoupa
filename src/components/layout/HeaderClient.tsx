@@ -89,7 +89,7 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
     <>
     <header className="relative sm:sticky sm:top-0 sm:z-50 z-50 shadow-lg">
       {/* Promo Bar */}
-      <div className="bg-primary-dark text-white text-center py-2 px-4 text-xs font-medium tracking-wide">
+      <div className="bg-[#06141B] text-white text-center py-2 px-4 text-xs font-medium tracking-wide">
         <span className="hidden sm:inline">
           🚀 Nova coleção chegou! &nbsp;|&nbsp;
           🚚 Frete grátis acima de <span className="text-gold font-bold">R$ 79</span> &nbsp;|&nbsp;
@@ -102,15 +102,15 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
       </div>
 
       {/* Header Principal — Mobile (2 linhas) */}
-      <div className="sm:hidden bg-primary">
+      <div className="sm:hidden bg-[#11212D]">
         {/* Linha 1: Logo */}
         <div className="px-4 pt-2.5 pb-2 flex items-center relative">
-          <div className="w-8 h-8 bg-white/15 rounded-xl flex items-center justify-center flex-shrink-0">
-            <Sparkles className="w-4 h-4" style={{ color: '#FFD600' }} />
+          <div className="w-8 h-8 bg-[#253745] rounded-xl flex items-center justify-center flex-shrink-0">
+            <Sparkles className="w-4 h-4" style={{ color: '#FFDA6C' }} />
           </div>
           <Link href="/" className="absolute left-0 right-0 flex justify-center pointer-events-none">
             <span className="font-display text-base font-bold text-white pointer-events-auto">
-              Black<span style={{ color: '#FFD600' }}>Import</span>
+              Black<span style={{ color: '#FFDA6C' }}>Import</span>
             </span>
           </Link>
           {/* dropdown de conta oculto mas mantido para compatibilidade com estado */}
@@ -171,16 +171,16 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
       </div>
 
       {/* Header Principal — Desktop (3 colunas) */}
-      <div className="hidden sm:block bg-primary">
+      <div className="hidden sm:block bg-[#11212D]">
         <div className="max-w-[1260px] mx-auto px-6 py-3 grid grid-cols-[auto_1fr_auto] items-center gap-5">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 flex-shrink-0">
-            <div className="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-gold-DEFAULT" style={{ color: '#FFD600' }} />
+            <div className="w-9 h-9 bg-[#253745] rounded-xl flex items-center justify-center">
+              <Sparkles className="w-5 h-5 text-gold-DEFAULT" style={{ color: '#FFDA6C' }} />
             </div>
             <div>
               <span className="font-display text-xl font-bold text-white leading-none">
-                Black<span style={{ color: '#FFD600' }}>Import</span>
+                Black<span style={{ color: '#FFDA6C' }}>Import</span>
               </span>
               <span className="block text-[0.6rem] font-medium text-white/60 uppercase tracking-widest mt-0.5">
                 Moda &amp; Estilo
@@ -212,7 +212,7 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
             <div className="relative">
               <button
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="flex flex-col items-center gap-0.5 text-white/90 hover:text-white px-3 py-2 rounded-lg hover:bg-white/12 transition-colors min-w-[44px]"
+                className="flex flex-col items-center gap-0.5 text-white/90 hover:text-white px-3 py-2 rounded-lg hover:bg-[#253745] transition-colors min-w-[44px]"
               >
                 <User className="w-5 h-5" />
                 <span className="text-[0.65rem] whitespace-nowrap">{user ? 'Conta' : 'Entrar'}</span>
@@ -254,7 +254,7 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
             </div>
 
             {/* Favoritos */}
-            <button className="flex flex-col items-center gap-0.5 text-white/90 hover:text-white px-3 py-2 rounded-lg hover:bg-white/12 transition-colors min-w-[44px]">
+            <button className="flex flex-col items-center gap-0.5 text-white/90 hover:text-white px-3 py-2 rounded-lg hover:bg-[#253745] transition-colors min-w-[44px]">
               <Heart className="w-5 h-5" />
               <span className="text-[0.65rem]">Favoritos</span>
             </button>
@@ -262,13 +262,13 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
             {/* Sacola */}
             <button
               onClick={toggleCart}
-              className="flex flex-col items-center gap-0.5 text-white/90 hover:text-white px-3 py-2 rounded-lg hover:bg-white/12 transition-colors min-w-[44px] relative"
+              className="flex flex-col items-center gap-0.5 text-white/90 hover:text-white px-3 py-2 rounded-lg hover:bg-[#253745] transition-colors min-w-[44px] relative"
               aria-label="Carrinho de compras"
             >
               <div className="relative">
                 <ShoppingBag className="w-5 h-5" />
                 {itemCount > 0 && (
-                  <span className="absolute -top-1.5 -right-2 bg-accent text-white text-[0.6rem] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-primary">
+                  <span className="absolute -top-1.5 -right-2 bg-accent text-white text-[0.6rem] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-[#11212D]">
                     {itemCount > 99 ? '99+' : itemCount}
                   </span>
                 )}
@@ -280,7 +280,7 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
       </div>
 
       {/* Nav Categorias */}
-      <nav className="bg-primary-dark hidden md:block">
+      <nav className="bg-[#253745] hidden md:block">
         <div className="max-w-[1260px] mx-auto px-6 flex items-center overflow-x-auto scrollbar-hide">
           {/* Novidades — sempre primeiro */}
           <Link
@@ -319,7 +319,7 @@ export function HeaderClient({ categories }: { categories: Category[] }) {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="sm:hidden bg-primary-dark border-t border-white/10 px-4 py-4">
+        <div className="sm:hidden bg-[#11212D] border-t border-white/10 px-4 py-4">
           <div className="flex flex-col gap-1">
             <Link
               href="/produtos"
