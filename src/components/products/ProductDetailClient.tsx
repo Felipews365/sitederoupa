@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ShoppingBag, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ShoppingBag, ChevronLeft, ChevronRight, X } from 'lucide-react'
 import { useCartStore } from '@/store/cartStore'
 import { PriceDisplay } from '@/components/shared/PriceDisplay'
 import { Button } from '@/components/ui/button'
@@ -28,7 +28,25 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [selectedColor, setSelectedColor] = useState<string | null>(firstVariant?.color ?? null)
   const [selectedImage, setSelectedImage] = useState(0)
   const [quantity, setQuantity] = useState(1)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+  const [lightboxIndex, setLightboxIndex] = useState(0)
   const { addItem } = useCartStore()
+
+  useEffect(() => {
+    if (!lightboxOpen) return
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightboxOpen(false)
+      if (e.key === 'ArrowRight') setLightboxIndex((i) => (i + 1) % images.length)
+      if (e.key === 'ArrowLeft') setLightboxIndex((i) => (i - 1 + images.length) % images.length)
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [lightboxOpen, images.length])
+
+  const openLightbox = (index: number) => {
+    setLightboxIndex(index)
+    setLightboxOpen(true)
+  }
 
   const touchStartX = useRef<number | null>(null)
   const touchEndX = useRef<number | null>(null)
@@ -90,7 +108,76 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
     )
   }
 
+  const lightboxTouchStartX = useRef<number | null>(null)
+
+  const handleLightboxTouchStart = (e: React.TouchEvent) => {
+    lightboxTouchStartX.current = e.touches[0].clientX
+  }
+
+  const handleLightboxTouchEnd = (e: React.TouchEvent) => {
+    const delta = (lightboxTouchStartX.current ?? 0) - e.changedTouches[0].clientX
+    if (Math.abs(delta) < 40 || images.length <= 1) return
+    if (delta > 0) setLightboxIndex((i) => (i + 1) % images.length)
+    else setLightboxIndex((i) => (i - 1 + images.length) % images.length)
+  }
+
   return (
+    <>
+    {/* Lightbox tela cheia */}
+    {lightboxOpen && (
+      <div
+        className="fixed inset-0 z-50 bg-black flex items-center justify-center"
+        onTouchStart={handleLightboxTouchStart}
+        onTouchEnd={handleLightboxTouchEnd}
+      >
+        <button
+          onClick={() => setLightboxOpen(false)}
+          className="absolute top-4 right-4 z-10 bg-white/20 hover:bg-white/40 rounded-full p-2 transition-colors"
+        >
+          <X className="w-6 h-6 text-white" />
+        </button>
+
+        {images.length > 1 && (
+          <>
+            <button
+              onClick={() => setLightboxIndex((i) => (i - 1 + images.length) % images.length)}
+              className="absolute left-3 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/40 rounded-full p-2 transition-colors"
+            >
+              <ChevronLeft className="w-6 h-6 text-white" />
+            </button>
+            <button
+              onClick={() => setLightboxIndex((i) => (i + 1) % images.length)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/40 rounded-full p-2 transition-colors"
+            >
+              <ChevronRight className="w-6 h-6 text-white" />
+            </button>
+          </>
+        )}
+
+        <div className="relative w-full h-full">
+          <Image
+            src={images[lightboxIndex]?.url ?? ''}
+            alt={images[lightboxIndex]?.alt_text ?? ''}
+            fill
+            className="object-contain"
+            priority
+          />
+        </div>
+
+        {images.length > 1 && (
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setLightboxIndex(i)}
+                className={`w-2 h-2 rounded-full transition-colors ${i === lightboxIndex ? 'bg-white' : 'bg-white/40'}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    )}
+
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
@@ -124,8 +211,9 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                   src={images[selectedImage]?.url ?? images[0].url}
                   alt={images[selectedImage]?.alt_text ?? product.name}
                   fill
-                  className="object-cover"
+                  className="object-cover cursor-zoom-in"
                   priority
+                  onClick={() => openLightbox(selectedImage)}
                 />
                 {images.length > 1 && (
                   <>
@@ -340,5 +428,6 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
         </div>
       </div>
     </div>
+    </>
   )
 }
