@@ -32,9 +32,9 @@ export function Footer() {
     <footer className="bg-[#06141B] text-[#9BA8AB] pt-12 pb-8 px-4 sm:px-6">
       <div className="max-w-[1260px] mx-auto">
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
           {/* Brand */}
-          <div>
+          <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-[#253745] rounded-lg flex items-center justify-center">
                 <Sparkles className="w-4 h-4" style={{ color: '#FFDA6C' }} />
@@ -106,10 +106,6 @@ export function Footer() {
         <div className="border-t border-[#253745] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 flex-wrap">
           <p className="text-xs text-[#4A5C6A]">
             © 2026 MercadoVerde Moda. Todos os direitos reservados.
-            {' · '}
-            <Link href="/admin" className="text-[#4A5C6A] hover:text-[#9BA8AB] border-b border-dashed border-[#4A5C6A] hover:border-[#9BA8AB] pb-px transition-colors">
-              Área Admin
-            </Link>
           </p>
           <div className="flex items-center gap-2 flex-wrap justify-center">
             {paymentMethods.map((method) => (
@@ -123,6 +119,7 @@ export function Footer() {
           </div>
         </div>
       </div>
+      <div className="h-14 sm:hidden" />
     </footer>
   )
 }

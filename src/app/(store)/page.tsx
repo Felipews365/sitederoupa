@@ -240,36 +240,36 @@ export default async function HomePage() {
 
         {/* ABOUT / STATS */}
         <BlurFade delay={0.1} inView>
-          <section className="bg-white rounded-xl border border-border p-8 sm:p-10 mb-12 flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-10">
-            <div className="w-16 h-16 bg-primary-light rounded-xl flex items-center justify-center flex-shrink-0">
-              <Shirt className="w-8 h-8 text-primary" />
+          <section className="bg-[#1e3347] rounded-xl border border-[#2a4560] p-8 sm:p-10 mb-12 flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-10">
+            <div className="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
+              <Shirt className="w-8 h-8 text-white" />
             </div>
             <div className="flex-1">
-              <h2 className="font-display text-2xl font-bold mb-2">Nossa Loja de Moda</h2>
-              <p className="text-sm text-muted-foreground max-w-[60ch] leading-relaxed">
+              <h2 className="font-display text-2xl font-bold mb-2 text-white">Nossa Loja de Moda</h2>
+              <p className="text-sm text-white/70 max-w-[60ch] leading-relaxed">
                 Todos os produtos são nossos — selecionados com cuidado e enviados diretamente de nosso estoque para você. Trabalhamos com as melhores peças para garantir qualidade, conforto e estilo no seu dia a dia.
               </p>
 
               {/* Stats */}
               <div className="flex flex-wrap gap-6 mt-5">
                 <div className="text-center">
-                  <div className="font-display text-2xl font-bold text-primary flex items-baseline gap-0.5">
-                    +<NumberTicker value={30000} delay={0.2} className="font-display text-2xl font-bold text-primary" />
+                  <div className="font-display text-2xl font-bold text-[#FFDA6C] flex items-baseline gap-0.5">
+                    +<NumberTicker value={30000} delay={0.2} className="font-display text-2xl font-bold text-[#FFDA6C]" />
                   </div>
-                  <p className="text-xs text-muted-foreground mt-0.5 flex items-center gap-1"><Users className="w-3 h-3" /> Clientes</p>
+                  <p className="text-xs text-white/60 mt-0.5 flex items-center gap-1"><Users className="w-3 h-3" /> Clientes</p>
                 </div>
                 <div className="text-center">
-                  <div className="font-display text-2xl font-bold text-primary flex items-baseline gap-0.5">
-                    <NumberTicker value={4.9} delay={0.3} decimalPlaces={1} className="font-display text-2xl font-bold text-primary" />
+                  <div className="font-display text-2xl font-bold text-[#FFDA6C] flex items-baseline gap-0.5">
+                    <NumberTicker value={4.9} delay={0.3} decimalPlaces={1} className="font-display text-2xl font-bold text-[#FFDA6C]" />
                     ★
                   </div>
-                  <p className="text-xs text-muted-foreground mt-0.5 flex items-center gap-1"><Star className="w-3 h-3" /> Avaliação</p>
+                  <p className="text-xs text-white/60 mt-0.5 flex items-center gap-1"><Star className="w-3 h-3" /> Avaliação</p>
                 </div>
                 <div className="text-center">
-                  <div className="font-display text-2xl font-bold text-primary">
-                    <NumberTicker value={5000} delay={0.4} className="font-display text-2xl font-bold text-primary" />+
+                  <div className="font-display text-2xl font-bold text-[#FFDA6C]">
+                    <NumberTicker value={5000} delay={0.4} className="font-display text-2xl font-bold text-[#FFDA6C]" />+
                   </div>
-                  <p className="text-xs text-muted-foreground mt-0.5">Produtos</p>
+                  <p className="text-xs text-white/60 mt-0.5">Produtos</p>
                 </div>
               </div>
 
@@ -281,7 +281,7 @@ export default async function HomePage() {
                   { icon: Star, label: '4.9 Avaliação' },
                   { icon: RefreshCw, label: 'Troca Grátis' },
                 ].map(({ icon: Icon, label }) => (
-                  <span key={label} className="inline-flex items-center gap-1.5 bg-primary-light text-primary text-xs font-semibold px-3 py-1.5 rounded-full border border-primary-hl">
+                  <span key={label} className="inline-flex items-center gap-1.5 bg-white/10 text-white text-xs font-semibold px-3 py-1.5 rounded-full border border-white/20">
                     <Icon className="w-3 h-3" />
                     {label}
                   </span>

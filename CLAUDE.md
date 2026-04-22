@@ -26,20 +26,37 @@ npm run lint     # Lint
 | Animações | Framer Motion (via Magic UI) |
 | Toasts | Sonner |
 
-## Paleta de cores (tema fashion navy + gold)
+## Paleta de cores
 
-Definida em `tailwind.config.ts`:
+### Tokens Tailwind (`tailwind.config.ts`)
 
 | Token | Cor | Uso |
 |---|---|---|
-| `primary` | `#0062B8` | Header, botões principais, nav |
-| `primary-dark` | `#002962` | Promo bar, footer, hover states |
+| `primary` | `#0062B8` | Botões principais, links, badges, ring de foco |
+| `primary-dark` | `#002962` | Hover states de botões, elementos de marca |
 | `primary-light` | `#F0F6FC` | Backgrounds suaves, badges |
 | `accent` | `#FF6B00` | CTAs, botão de busca, ofertas |
-| `gold` | `#FFDA6C` | Estrelas, badges de destaque, gradientes |
+| `gold` | `#FFDA6C` | Estrelas, badges de destaque, shimmer |
 | `sale` | `#E63946` | Badges de desconto, promoções |
 | `surface` | `#F7F8FA` | Background geral da página |
 | `border` | `#DCE3EC` | Bordas de cards e inputs |
+
+### Cores hardcoded no Header e Footer (paleta charcoal)
+
+Header e Footer **não usam os tokens `primary`** — usam valores hex diretamente via classes Tailwind arbitrárias `bg-[#hex]`:
+
+| Hex | Tom | Onde |
+|---|---|---|
+| `#06141B` | Quase preto | Promo bar, fundo do footer |
+| `#11212D` | Navy escuro | Header principal (mobile + desktop), mobile menu |
+| `#253745` | Slate médio | Nav de categorias desktop, ícones sociais |
+| `#4A5C6A` | Slate claro | Hover de ícones sociais |
+| `#9BA8AB` | Cinza azulado | Texto secundário do footer |
+| `#CCD0CF` | Cinza claro | Títulos e texto principal do footer |
+
+### CTA Banner ("Crie sua conta")
+
+Gradiente horizontal: `from-[#06141B] via-[#253745] to-[#06141B]` — luz no centro com os tons charcoal.
 
 ## Estrutura de componentes
 
@@ -69,9 +86,9 @@ src/
 │   │   └── FlashSaleTimer.tsx   # Countdown timer (client)
 │   ├── layout/
 │   │   ├── Header.tsx           # Server component wrapper — busca categorias ativas do banco e passa para HeaderClient
-│   │   ├── HeaderClient.tsx     # Client component — promo bar + header azul + nav categorias dinâmico; mostra até 6 categorias no nav desktop + CategoryDropdown para o restante; mobile: lista todas; **mobile header 2 linhas**: linha 1 = ícone Sparkles (esquerda) + nome "BlackImport" centralizado (position absolute), linha 2 = busca full-width com padding maior; ícone de Conta removido do header mobile (duplicaria o bottom nav); **comportamento de scroll no mobile**: header usa `relative` no mobile — rola junto com a página sem auto-hide. No desktop usa `sm:sticky sm:top-0` (fixo no topo); **bottom nav mobile fixo** (sm:hidden, fixed bottom-0, z-50, h-14, bg-white): 4 itens = Início (Home) / Conta (User → /login ou /minha-conta) / Carrinho (ShoppingBag + badge) / Menu (abre/fecha mobile menu drawer)
+│   │   ├── HeaderClient.tsx     # Client component — promo bar + header escuro + nav categorias dinâmico; mostra até 6 categorias no nav desktop + CategoryDropdown para o restante; mobile: lista todas; **cores**: promo bar `bg-[#06141B]`, header `bg-[#11212D]`, nav `bg-[#253745]` (paleta charcoal hardcoded, não usa tokens primary); **mobile header 2 linhas**: linha 1 = ícone Sparkles (esquerda) + nome "BlackImport" centralizado (position absolute), linha 2 = busca full-width com padding maior; ícone de Conta removido do header mobile (duplicaria o bottom nav); **comportamento de scroll no mobile**: header usa `relative` no mobile — rola junto com a página sem auto-hide. No desktop usa `sm:sticky sm:top-0` (fixo no topo); **bottom nav mobile fixo** (sm:hidden, fixed bottom-0, z-50, h-14, bg-white): 4 itens = Início (Home) / Conta (User → /login ou /minha-conta) / Carrinho (ShoppingBag + badge) / Menu (abre/fecha mobile menu drawer)
 │   │   ├── CategoryDropdown.tsx # Client component — dropdown animado (Framer Motion) "Ver todas ▾" para categorias além das 6 no nav desktop; grid 2 colunas
-│   │   └── Footer.tsx           # Footer azul escuro + logos pagamento
+│   │   └── Footer.tsx           # Footer charcoal `bg-[#06141B]` + logos pagamento; textos em `#9BA8AB`/`#CCD0CF`; ícones sociais `bg-[#253745]` hover `bg-[#4A5C6A]`
 │   ├── products/
 │   │   ├── ProductCard.tsx         # Card com hover effects + size row
 │   │   ├── ProductDetailClient.tsx # Página de detalhe (client) — galeria, variantes, carrinho; swipe horizontal na imagem principal (mín 40px) via onTouchStart/onTouchEnd + useRef; clicar na imagem abre lightbox tela cheia (fixed inset-0, bg-black, object-contain) com swipe, setas, bolinhas e tecla Esc
